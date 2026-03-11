@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useCourseDetail } from '../hooks/useCourseDetail.ts';
+import { Platform } from 'react-native';
 
 // ─── STAR RATING ─────────────────────────────────────────────────────────────
 function StarRating({ rating }: { rating: number }) {
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
   },
   backOverlay: {
     position: 'absolute',
-    top: 52,
+    top: Platform.OS === 'android' ? 20 : 52,
     left: 16,
     backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 20,
@@ -285,7 +286,7 @@ const styles = StyleSheet.create({
   },
   reportOverlay: {
     position: 'absolute',
-    top: 52,
+    top: Platform.OS === 'android' ? 20 : 52,
     right: 16,
     backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 20,
@@ -392,14 +393,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#0a0a0a',
+    backgroundColor: 'black',
     borderTopWidth: 1,
     borderTopColor: '#1a1a1a',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 14,
-    paddingBottom: 34,
+    paddingBottom: Platform.OS === 'android' ? 14 : 34,
     gap: 12,
   },
   price: {
@@ -438,7 +439,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalBox: {
-    backgroundColor: '#111',
+    backgroundColor: 'black',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 24,
@@ -456,7 +457,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   modalInput: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: 'black',
+    borderWidth: 1,
+    borderColor: '#333',
     borderRadius: 12,
     padding: 14,
     color: 'white',
