@@ -11,6 +11,7 @@ import SearchScreen from '../screens/SearchScreen';
 import MyVaultScreen from '../screens/MyVaultScreen';
 import WishlistScreen from '../screens/WishlistScreen';
 import AccountScreen from '../screens/AccountScreen';
+import CourseDetailScreen from '../screens/CourseDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -71,6 +72,7 @@ export default function AppNavigator() {
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={TabNavigator} />
+        <Stack.Screen name="CourseDetail" component={CourseDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
