@@ -1,25 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
-import { JwtPayload } from '../types/course';
+import { JwtPayload } from '../types/auth';
 
 export const useCurrentUser = () => {
-  const [firstName, setFirstName] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const token = await AsyncStorage.getItem('token');
-        if (token) {
-          const decoded = jwtDecode<JwtPayload>(token);
-          setFirstName(decoded.FirstName ?? decoded.Login ?? null);
-        }
-      } catch {
-        setFirstName(null);
-      }
-    };
-    loadUser();
-  }, []);
+  const { data: firstName = null } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) return null;
+      const decoded = jwtDecode<JwtPayload>(token);
+      return decoded.FirstName ?? decoded.Login ?? null;
+    },
+    staleTime: Infinity,
+  });
 
   return { firstName };
 };

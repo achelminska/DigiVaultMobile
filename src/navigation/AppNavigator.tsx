@@ -6,15 +6,17 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { Platform } from 'react-native';
 
 import LoginScreen from '../screens/LoginScreen';
-import DashboardScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import MyVaultScreen from '../screens/MyVaultScreen';
 import WishlistScreen from '../screens/WishlistScreen';
 import AccountScreen from '../screens/AccountScreen';
 import CourseDetailScreen from '../screens/CourseDetailScreen';
+import { RootStackParamList, RootTabParamList } from '../types/navigation';
+import { colors } from '../config/theme';
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 function TabNavigator() {
   return (
@@ -22,7 +24,7 @@ function TabNavigator() {
     screenOptions={{
       headerShown: false,
       tabBarStyle: {
-        backgroundColor: 'black',
+        backgroundColor: colors.black,
         borderTopWidth: 0,
         height: 80,
         paddingTop: 5,
@@ -34,12 +36,12 @@ function TabNavigator() {
       tabBarLabelStyle: {
         fontSize: 12,
       },
-      tabBarActiveTintColor: 'white',
-      tabBarInactiveTintColor: 'gray',
+      tabBarActiveTintColor: colors.white,
+      tabBarInactiveTintColor: colors.textLabel,
     }}>
       <Tab.Screen
         name="Home"
-        component={DashboardScreen}
+        component={HomeScreen}
         options={{ tabBarIcon: ({ color }) => <AntDesignIcon name="star" size={28} color={color} /> }}
       />
       <Tab.Screen

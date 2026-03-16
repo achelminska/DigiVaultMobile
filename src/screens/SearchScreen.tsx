@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { SearchScreenProps } from '../types/navigation';
 
-export default function SearchScreen() {
+export default function SearchScreen(_props: SearchScreenProps) {
   return (
     <View style={styles.container}>
       <Text>Search</Text>

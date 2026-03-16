@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { Course } from '../types/course';
+import { colors } from '../config/theme';
 
 interface Props {
   course: Course;
@@ -16,7 +17,7 @@ export default function CourseCard({ course, onPress }: Props) {
         <Image source={{ uri: course.imageUrl }} style={styles.image} resizeMode="cover" />
       ) : (
         <View style={styles.imagePlaceholder}>
-          <AntDesignIcon name="playcircleo" size={32} color="#555" />
+          <AntDesignIcon name="playcircleo" size={32} color={colors.iconFaint} />
         </View>
       )}
 
@@ -25,7 +26,7 @@ export default function CourseCard({ course, onPress }: Props) {
         <Text style={styles.author} numberOfLines={1}>{course.authorName}</Text>
 
         <View style={styles.ratingRow}>
-          <AntDesignIcon name="star" size={11} color="white" />
+          <AntDesignIcon name="star" size={11} color={colors.textPrimary} />
           <Text style={styles.ratingValue}>
             {course.averageRating > 0 ? course.averageRating.toFixed(1) : '—'}
           </Text>
@@ -34,7 +35,7 @@ export default function CourseCard({ course, onPress }: Props) {
           )}
         </View>
 
-        <Text style={styles.price}>{course.price.toFixed(2)} zł</Text>
+        <Text style={styles.price}>{course.price.toFixed(2)} PLN</Text>
       </View>
 
     </TouchableOpacity>
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   card: {
     width: 175,
     height: 230,
-    backgroundColor: '#111',
+    backgroundColor: colors.card,
     borderRadius: 14,
     overflow: 'hidden',
   },
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   imagePlaceholder: {
     width: '100%',
     height: 100,
-    backgroundColor: '#222',
+    backgroundColor: colors.imagePlaceholder,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -65,13 +66,13 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   title: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 13,
     fontWeight: '600',
     lineHeight: 18,
   },
   author: {
-    color: '#888',
+    color: colors.textSecondary,
     fontSize: 11,
     marginTop: 1,
   },
@@ -82,16 +83,16 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   ratingValue: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 11,
     fontWeight: '600',
   },
   ratingCount: {
-    color: '#888',
+    color: colors.textSecondary,
     fontSize: 11,
   },
   price: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 15,
     fontWeight: '800',
     marginTop: 5,

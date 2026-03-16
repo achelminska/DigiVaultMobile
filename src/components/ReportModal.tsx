@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
+import { colors } from '../config/theme';
 
 interface Props {
   visible: boolean;
@@ -20,7 +21,7 @@ export default function ReportModal({ visible, onClose, onSubmit }: Props) {
 
   const handleSubmit = () => {
     if (!reason.trim()) {
-      Alert.alert('Błąd', 'Wpisz powód zgłoszenia.');
+      Alert.alert('Error', 'Please enter a reason.');
       return;
     }
     onSubmit(reason.trim());
@@ -32,12 +33,12 @@ export default function ReportModal({ visible, onClose, onSubmit }: Props) {
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.box}>
-          <Text style={styles.title}>Zgłoś kurs</Text>
-          <Text style={styles.subtitle}>Opisz dlaczego zgłaszasz ten kurs</Text>
+          <Text style={styles.title}>Report course</Text>
+          <Text style={styles.subtitle}>Describe why you are reporting this course</Text>
           <TextInput
             style={styles.input}
-            placeholder="Powód zgłoszenia..."
-            placeholderTextColor="#666"
+            placeholder="Reason for reporting..."
+            placeholderTextColor={colors.textFaint}
             multiline
             numberOfLines={4}
             value={reason}
@@ -45,10 +46,10 @@ export default function ReportModal({ visible, onClose, onSubmit }: Props) {
           />
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.btnCancel} onPress={onClose}>
-              <Text style={styles.btnCancelText}>Anuluj</Text>
+              <Text style={styles.btnCancelText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnSubmit} onPress={handleSubmit}>
-              <Text style={styles.btnSubmitText}>Zgłoś</Text>
+              <Text style={styles.btnSubmitText}>Report</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -60,34 +61,34 @@ export default function ReportModal({ visible, onClose, onSubmit }: Props) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: colors.overlayDark,
     justifyContent: 'flex-end',
   },
   box: {
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 24,
     paddingBottom: 40,
   },
   title: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 18,
     fontWeight: '800',
     marginBottom: 4,
   },
   subtitle: {
-    color: '#888',
+    color: colors.textSecondary,
     fontSize: 13,
     marginBottom: 16,
   },
   input: {
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
     borderRadius: 12,
     padding: 14,
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 14,
     textAlignVertical: 'top',
     minHeight: 100,
@@ -102,12 +103,12 @@ const styles = StyleSheet.create({
     height: 46,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
     justifyContent: 'center',
     alignItems: 'center',
   },
   btnCancelText: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -115,12 +116,12 @@ const styles = StyleSheet.create({
     flex: 2,
     height: 46,
     borderRadius: 12,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   btnSubmitText: {
-    color: 'black',
+    color: colors.black,
     fontSize: 14,
     fontWeight: '800',
   },

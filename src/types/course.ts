@@ -12,8 +12,3 @@ export interface Category {
   idCategory: number;
   name: string;
 }
-
-export interface JwtPayload {
-  FirstName?: string;
-  Login?: string;
-}

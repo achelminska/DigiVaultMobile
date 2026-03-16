@@ -10,19 +10,20 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import CourseSection from '../components/CourseSection';
 import { usePopularCourses, useNewestCourses, useTopRatedCourses, useCategories } from '../hooks/useCourses';
 import { useCurrentUser } from '../hooks/useCurrentUser';
-import { Course, Category } from '../types/course';
+import { Course } from '../types/course';
+import { HomeScreenProps } from '../types/navigation';
+import { colors } from '../config/theme';
 
-export default function HomeScreen({ navigation }: any) {
+export default function HomeScreen({ navigation }: HomeScreenProps) {
   const { firstName } = useCurrentUser();
 
-  const { data: popularCourses = [], isLoading: loadingPopular } = usePopularCourses();
-  const { data: newestCourses = [], isLoading: loadingNewest } = useNewestCourses();
-  const { data: topRatedCourses = [], isLoading: loadingTopRated } = useTopRatedCourses();
+  const { data: popularCourses = [], isLoading: loadingPopular, isError: errorPopular, refetch: refetchPopular } = usePopularCourses();
+  const { data: newestCourses = [], isLoading: loadingNewest, isError: errorNewest, refetch: refetchNewest } = useNewestCourses();
+  const { data: topRatedCourses = [], isLoading: loadingTopRated, isError: errorTopRated, refetch: refetchTopRated } = useTopRatedCourses();
   const { data: categories = [] } = useCategories();
 
   const handleCoursePress = (course: Course) => {
     navigation.navigate('CourseDetail', { idCourse: course.idCourse });
-    console.log('Otwarto kurs:', course.idCourse);
   };
 
   return (
@@ -31,21 +32,23 @@ export default function HomeScreen({ navigation }: any) {
       {/* HEADER */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcomeLabel}>Witaj,</Text>
+          <Text style={styles.welcomeLabel}>Hello,</Text>
           <Text style={styles.welcomeName}>
-            {firstName ?? 'w DigiVault 👋'}
+            {firstName ?? 'DigiVault 👋'}
           </Text>
         </View>
         <TouchableOpacity style={styles.cartBtn}>
-          <AntDesignIcon name="shoppingcart" size={26} color="white" />
+          <AntDesignIcon name="shoppingcart" size={26} color={colors.textPrimary} />
         </TouchableOpacity>
       </View>
 
       {/* POPULAR */}
       <CourseSection
-        title="🔥 Najpopularniejsze"
+        title="🔥 Most Popular"
         courses={popularCourses}
         isLoading={loadingPopular}
+        isError={errorPopular}
+        onRetry={refetchPopular}
         onSeeAll={() => navigation.navigate('Search', { sortBy: 'popular' })}
         onCoursePress={handleCoursePress}
       />
@@ -53,9 +56,9 @@ export default function HomeScreen({ navigation }: any) {
       {/* CATEGORIES */}
       {categories.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Kategorie</Text>
+          <Text style={styles.sectionTitle}>Categories</Text>
           <View style={styles.categoriesWrap}>
-            {(categories as Category[]).map(cat => (
+            {categories.map(cat => (
               <TouchableOpacity
                 key={cat.idCategory}
                 style={styles.categoryChip}
@@ -69,18 +72,22 @@ export default function HomeScreen({ navigation }: any) {
 
       {/* NEWEST */}
       <CourseSection
-        title="🆕 Najnowsze"
+        title="🆕 Newest"
         courses={newestCourses}
         isLoading={loadingNewest}
+        isError={errorNewest}
+        onRetry={refetchNewest}
         onSeeAll={() => navigation.navigate('Search', { sortBy: 'newest' })}
         onCoursePress={handleCoursePress}
       />
 
       {/* TOP RATED */}
       <CourseSection
-        title="⭐ Najwyżej oceniane"
+        title="⭐ Top Rated"
         courses={topRatedCourses}
         isLoading={loadingTopRated}
+        isError={errorTopRated}
+        onRetry={refetchTopRated}
         onSeeAll={() => navigation.navigate('Search', { sortBy: 'top-rated' })}
         onCoursePress={handleCoursePress}
       />
@@ -93,7 +100,7 @@ export default function HomeScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
   },
   header: {
     flexDirection: 'row',
@@ -104,11 +111,11 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
   },
   welcomeLabel: {
-    color: 'gray',
+    color: colors.textLabel,
     fontSize: 14,
   },
   welcomeName: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 26,
     fontWeight: '800',
     marginTop: 2,
@@ -120,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: 36,
   },
   sectionTitle: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 19,
     fontWeight: '700',
     paddingHorizontal: 20,
@@ -134,13 +141,13 @@ const styles = StyleSheet.create({
   },
   categoryChip: {
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
   categoryChipText: {
-    color: 'white',
+    color: colors.textPrimary,
     fontSize: 13,
     fontWeight: '500',
   },
