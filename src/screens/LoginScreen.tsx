@@ -102,7 +102,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
 
         <View style={styles.signUpRow}>
           <Text style={styles.subtitle}>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <Text style={styles.subtitleLink}>Sign up</Text>
           </TouchableOpacity>
         </View>

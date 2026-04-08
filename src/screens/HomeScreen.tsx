@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import CourseSection from '../components/CourseSection';
+import CartIconButton from '../components/CartIconButton';
+import NotificationBell from '../components/NotificationBell';
 import { usePopularCourses, useNewestCourses, useTopRatedCourses, useCategories } from '../hooks/useCourses';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import { Course } from '../types/course';
@@ -37,9 +39,10 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
             {firstName ?? 'DigiVault 👋'}
           </Text>
         </View>
-        <TouchableOpacity style={styles.cartBtn}>
-          <AntDesignIcon name="shoppingcart" size={26} color={colors.textPrimary} />
-        </TouchableOpacity>
+        <View style={styles.headerActions}>
+          <NotificationBell onPress={() => navigation.navigate('Notifications')} />
+          <CartIconButton onPress={() => navigation.navigate('Cart')} />
+        </View>
       </View>
 
       {/* POPULAR */}
@@ -110,6 +113,11 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 28,
   },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   welcomeLabel: {
     color: colors.textLabel,
     fontSize: 14,
@@ -119,9 +127,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: '800',
     marginTop: 2,
-  },
-  cartBtn: {
-    padding: 8,
   },
   section: {
     marginBottom: 36,

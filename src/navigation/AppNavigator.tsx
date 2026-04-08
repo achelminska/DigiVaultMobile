@@ -6,12 +6,21 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { Platform } from 'react-native';
 
 import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import MyVaultScreen from '../screens/MyVaultScreen';
 import WishlistScreen from '../screens/WishlistScreen';
 import AccountScreen from '../screens/AccountScreen';
 import CourseDetailScreen from '../screens/CourseDetailScreen';
+import CartScreen from '../screens/CartScreen';
+import OrdersScreen from '../screens/OrdersScreen';
+import OrderDetailScreen from '../screens/OrderDetailScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
+import SellerDashboardScreen from '../screens/SellerDashboardScreen';
+import SellerCourseFormScreen from '../screens/SellerCourseFormScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
+import NotificationDetailScreen from '../screens/NotificationDetailScreen';
 import { RootStackParamList, RootTabParamList } from '../types/navigation';
 import { colors } from '../config/theme';
 
@@ -73,8 +82,17 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Home" component={TabNavigator} />
         <Stack.Screen name="CourseDetail" component={CourseDetailScreen} />
+        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Orders" component={OrdersScreen} />
+        <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+        <Stack.Screen name="SellerDashboard" component={SellerDashboardScreen} />
+        <Stack.Screen name="SellerCourseForm" component={SellerCourseFormScreen} />
+        <Stack.Screen name="Notifications" component={NotificationsScreen} />
+        <Stack.Screen name="NotificationDetail" component={NotificationDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

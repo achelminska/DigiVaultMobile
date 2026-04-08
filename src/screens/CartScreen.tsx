@@ -7,30 +7,54 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import CartIconButton from '../components/CartIconButton';
-import NotificationBell from '../components/NotificationBell';
-import { useWishlist, useRemoveFromWishlist } from '../hooks/useWishlist';
-import { useCart, useAddToCart } from '../hooks/useCart';
-import { usePurchasedCourses } from '../hooks/useCourses';
+import { useCart, useRemoveFromCart, useCheckout } from '../hooks/useCart';
+import { CheckoutConflictError } from '../api/cartApi';
 import { Course } from '../types/course';
-import { WishlistScreenProps } from '../types/navigation';
+import { CartScreenProps } from '../types/navigation';
 import { colors } from '../config/theme';
 
-interface WishlistItemProps {
-  item: Course;
-  inCart: boolean;
-  isPurchased: boolean;
-  addingToCart: boolean;
-  onPress: () => void;
-  onAddToCart: () => void;
-  onRemove: () => void;
-}
+export default function CartScreen({ navigation }: CartScreenProps) {
+  const { data: courses = [], isLoading, isError, refetch } = useCart();
+  const removeFromCart = useRemoveFromCart();
+  const checkout = useCheckout();
 
-function WishlistItem({ item, inCart, isPurchased, addingToCart, onPress, onAddToCart, onRemove }: WishlistItemProps) {
-  return (
-    <TouchableOpacity style={styles.item} onPress={onPress} activeOpacity={0.75}>
+  const total = courses.reduce((sum, c) => sum + c.price, 0);
+
+  const handleCoursePress = (course: Course) => {
+    navigation.navigate('CourseDetail', { idCourse: course.idCourse });
+  };
+
+  const handleRemove = (courseId: number) => {
+    removeFromCart.mutate(courseId);
+  };
+
+  const handleCheckout = () => {
+    checkout.mutate(undefined, {
+      onSuccess: (order) => {
+        navigation.replace('OrderDetail', { idOrder: order.idOrder });
+      },
+      onError: (error) => {
+        if (error instanceof CheckoutConflictError || (error as CheckoutConflictError).isConflict) {
+          Alert.alert(
+            'Nie można złożyć zamówienia',
+            'Niektóre kursy z koszyka zostały już przez Ciebie zakupione.',
+          );
+        } else {
+          Alert.alert('Błąd', 'Nie udało się złożyć zamówienia. Spróbuj ponownie.');
+        }
+      },
+    });
+  };
+
+  const renderItem = ({ item }: { item: Course }) => (
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => handleCoursePress(item)}
+      activeOpacity={0.75}>
+
       {item.imageUrl ? (
         <Image source={{ uri: item.imageUrl }} style={styles.thumbnail} resizeMode="cover" />
       ) : (
@@ -52,57 +76,30 @@ function WishlistItem({ item, inCart, isPurchased, addingToCart, onPress, onAddT
           )}
         </View>
         <Text style={styles.price}>{item.price.toFixed(2)} PLN</Text>
-
-        <View style={styles.actions}>
-          {isPurchased ? (
-            <View style={styles.purchasedBadge}>
-              <AntDesignIcon name="checkcircle" size={12} color="#4CAF50" />
-              <Text style={styles.purchasedText}>Zakupiono</Text>
-            </View>
-          ) : (
-            <TouchableOpacity
-              style={[styles.cartBtn, inCart && styles.cartBtnInCart]}
-              onPress={onAddToCart}
-              disabled={inCart || addingToCart}
-              activeOpacity={0.7}>
-              <AntDesignIcon
-                name="shoppingcart"
-                size={13}
-                color={inCart ? colors.textFaint : colors.black}
-              />
-              <Text style={[styles.cartBtnText, inCart && styles.cartBtnTextInCart]}>
-                {inCart ? 'W koszyku' : addingToCart ? '...' : 'Dodaj do koszyka'}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
       </View>
 
       <TouchableOpacity
         style={styles.removeBtn}
-        onPress={onRemove}
+        onPress={() => handleRemove(item.idCourse)}
         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-        <AntDesignIcon name="heart" size={20} color="#FF4444" />
+        <AntDesignIcon name="delete" size={20} color={colors.textSecondary} />
       </TouchableOpacity>
+
     </TouchableOpacity>
   );
-}
 
-export default function WishlistScreen({ navigation }: WishlistScreenProps) {
-  const { data: courses = [], isLoading, isError, refetch } = useWishlist();
-  const { data: cart = [] } = useCart();
-  const { data: purchasedCourses = [] } = usePurchasedCourses();
-  const { mutate: removeFromWishlist } = useRemoveFromWishlist();
-  const { mutate: addToCart, isPending: addingToCart, variables: addingCourseId } = useAddToCart();
+  const renderSeparator = () => <View style={styles.separator} />;
 
   return (
     <View style={styles.container}>
+
+      {/* HEADER */}
       <View style={styles.header}>
-        <Text style={styles.screenTitle}>Lista życzeń</Text>
-        <View style={styles.headerActions}>
-          <NotificationBell onPress={() => navigation.navigate('Notifications')} />
-          <CartIconButton onPress={() => navigation.navigate('Cart')} />
-        </View>
+        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
+          <AntDesignIcon name="arrowleft" size={24} color={colors.textPrimary} />
+        </TouchableOpacity>
+        <Text style={styles.screenTitle}>Cart</Text>
+        <View style={styles.backBtn} />
       </View>
 
       {isLoading && (
@@ -111,18 +108,18 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
 
       {isError && (
         <View style={styles.errorWrap}>
-          <Text style={styles.errorText}>Coś poszło nie tak.</Text>
+          <Text style={styles.errorText}>Something went wrong.</Text>
           <TouchableOpacity onPress={() => refetch()} style={styles.retryBtn}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
 
       {!isLoading && !isError && courses.length === 0 && (
         <View style={styles.emptyWrap}>
-          <AntDesignIcon name="hearto" size={42} color={colors.iconFaint} />
-          <Text style={styles.emptyText}>Lista życzeń jest pusta</Text>
-          <Text style={styles.emptySubText}>Zapisuj kursy, które Cię interesują</Text>
+          <AntDesignIcon name="shoppingcart" size={42} color={colors.iconFaint} />
+          <Text style={styles.emptyText}>Your cart is empty</Text>
+          <Text style={styles.emptySubText}>Add courses you'd like to purchase</Text>
         </View>
       )}
 
@@ -130,28 +127,39 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
         <FlatList
           data={courses}
           keyExtractor={item => item.idCourse.toString()}
-          renderItem={({ item }) => (
-            <WishlistItem
-              item={item}
-              inCart={cart.some(c => c.idCourse === item.idCourse)}
-              isPurchased={purchasedCourses.some(c => c.idCourse === item.idCourse)}
-              addingToCart={addingToCart && addingCourseId === item.idCourse}
-              onPress={() => navigation.navigate('CourseDetail', { idCourse: item.idCourse })}
-              onAddToCart={() => addToCart(item.idCourse)}
-              onRemove={() => removeFromWishlist(item.idCourse)}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          renderItem={renderItem}
+          ItemSeparatorComponent={renderSeparator}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={
             <Text style={styles.countLabel}>
-              {courses.length} {courses.length === 1 ? 'kurs' : courses.length < 5 ? 'kursy' : 'kursów'}
+              {courses.length} {courses.length === 1 ? 'course' : 'courses'}
             </Text>
           }
           ListFooterComponent={<View style={{ height: 32 }} />}
         />
       )}
+
+      {!isLoading && !isError && courses.length > 0 && (
+        <View style={styles.footer}>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>Total</Text>
+            <Text style={styles.totalValue}>{total.toFixed(2)} PLN</Text>
+          </View>
+          <TouchableOpacity
+            style={[styles.checkoutBtn, checkout.isPending && styles.checkoutBtnDisabled]}
+            activeOpacity={0.85}
+            onPress={handleCheckout}
+            disabled={checkout.isPending}>
+            {checkout.isPending ? (
+              <ActivityIndicator color={colors.black} />
+            ) : (
+              <Text style={styles.checkoutText}>Checkout</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
+
     </View>
   );
 }
@@ -169,15 +177,14 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 20,
   },
+  backBtn: {
+    width: 40,
+    padding: 8,
+  },
   screenTitle: {
     color: colors.textPrimary,
     fontSize: 26,
     fontWeight: '800',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
   },
   listContent: {
     paddingHorizontal: 20,
@@ -191,7 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 14,
     paddingVertical: 14,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   thumbnail: {
     width: 90,
@@ -208,6 +215,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flex: 1,
+    justifyContent: 'center',
     gap: 3,
   },
   title: {
@@ -241,50 +249,8 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginTop: 4,
   },
-  actions: {
-    marginTop: 8,
-  },
-  cartBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    alignSelf: 'flex-start',
-    backgroundColor: colors.textPrimary,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  cartBtnInCart: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  cartBtnText: {
-    color: colors.black,
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  cartBtnTextInCart: {
-    color: colors.textFaint,
-  },
-  purchasedBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    alignSelf: 'flex-start',
-    borderWidth: 1,
-    borderColor: '#4CAF50',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  purchasedText: {
-    color: '#4CAF50',
-    fontSize: 12,
-    fontWeight: '600',
-  },
   removeBtn: {
-    paddingTop: 2,
+    paddingHorizontal: 4,
   },
   separator: {
     height: 1,
@@ -330,5 +296,42 @@ const styles = StyleSheet.create({
   emptySubText: {
     color: colors.textSecondary,
     fontSize: 13,
+  },
+  footer: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 36,
+    borderTopWidth: 1,
+    borderTopColor: colors.divider,
+    gap: 14,
+  },
+  totalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  totalLabel: {
+    color: colors.textSecondary,
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  totalValue: {
+    color: colors.textPrimary,
+    fontSize: 22,
+    fontWeight: '800',
+  },
+  checkoutBtn: {
+    backgroundColor: colors.textPrimary,
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  checkoutBtnDisabled: {
+    opacity: 0.6,
+  },
+  checkoutText: {
+    color: colors.black,
+    fontSize: 16,
+    fontWeight: '700',
   },
 });
