@@ -1,5 +1,4 @@
-import { fetchWishlist } from '../api/wishlistApi';
-import { addToWishlist, removeFromWishlist } from '../api/wishlistApi';
+import { fetchWishlist, addToWishlist, removeFromWishlist } from '../api/wishlistApi';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useWishlist = () => 

@@ -1,15 +1,8 @@
 import { authRequest } from './config';
-
-export interface Notification {
-  idNotification: number;
-  title: string;
-  message: string;
-  isRead: boolean;
-  createdAt: string;
-}
+import { Notification } from '../types/notification';
 
 export const fetchNotifications = (): Promise<Notification[]> =>
-  authRequest<Notification[]>('/api/Notifications');
+  authRequest<Notification[]>('/api/notifications');
 
 export const markAsRead = (idNotification: number): Promise<void> =>
-  authRequest<void>(`/api/Notifications/${idNotification}`, { method: 'PATCH' });
+  authRequest<void>(`/api/notifications/${idNotification}`, { method: 'PATCH' });

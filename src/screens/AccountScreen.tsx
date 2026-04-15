@@ -10,10 +10,7 @@ import {
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
-import { useUserProfile } from '../hooks/useUserProfile';
 import { useCurrentUser } from '../hooks/useCurrentUser';
-import { useSellerCourses } from '../hooks/useSeller';
-import { useNotifications } from '../hooks/useNotifications';
 import NotificationBell from '../components/NotificationBell';
 import CartIconButton from '../components/CartIconButton';
 import { AccountScreenProps } from '../types/navigation';
@@ -44,17 +41,10 @@ function MenuRow({ icon, label, onPress, danger = false }: MenuRowProps) {
 
 
 export default function AccountScreen({ navigation }: AccountScreenProps) {
-  const { data: profile } = useUserProfile();
   const { firstName, lastName } = useCurrentUser();
   const queryClient = useQueryClient();
-  const { data: sellerData } = useSellerCourses();
-  const hasCourses = (sellerData?.items.length ?? 0) > 0;
-  const { data: notifications = [] } = useNotifications();
-  const unreadCount = notifications.filter(n => !n.isRead).length;
 
-  const fullName = profile
-    ? [profile.firstName, profile.lastName].filter(Boolean).join(' ')
-    : [firstName, lastName].filter(Boolean).join(' ') || '—';
+  const fullName = [firstName, lastName].filter(Boolean).join(' ') || '—';
 
   const handleLogout = () => {
     Alert.alert(
@@ -68,7 +58,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
           onPress: async () => {
             await AsyncStorage.removeItem('token');
             queryClient.clear();
-            navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
+            navigation.getParent()?.reset({ index: 0, routes: [{ name: 'Login' }] });
           },
         },
       ],
@@ -97,7 +87,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
         <View style={styles.separator} />
         <MenuRow
           icon="bells"
-          label={unreadCount > 0 ? `Powiadomienia (${unreadCount})` : 'Powiadomienia'}
+          label="Powiadomienia"
           onPress={() => navigation.navigate('Notifications')}
         />
         <View style={styles.separator} />
@@ -108,25 +98,9 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
         />
         <View style={styles.separator} />
         <MenuRow
-          icon="hearto"
-          label="Lista życzeń"
-          onPress={() => navigation.navigate('Wishlist')}
-        />
-        <View style={styles.separator} />
-        <MenuRow
-          icon="playcircleo"
-          label="Moje kursy"
-          onPress={() => navigation.navigate('My Vault')}
-        />
-        <View style={styles.separator} />
-        <MenuRow
           icon="edit"
-          label={hasCourses ? 'Moje kursy autorskie' : 'Stwórz swój pierwszy kurs'}
-          onPress={() =>
-            hasCourses
-              ? navigation.navigate('SellerDashboard')
-              : navigation.navigate('SellerCourseForm', {})
-          }
+          label="Moje kursy"
+          onPress={() => navigation.navigate('SellerDashboard')}
         />
       </View>
 

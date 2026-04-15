@@ -133,7 +133,7 @@ export default function SellerDashboardScreen({ navigation }: SellerDashboardScr
           renderItem={renderItem}
           numColumns={COLUMNS}
           columnWrapperStyle={styles.row}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={[styles.list, courses.length === 0 && styles.listEmpty]}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             courses.length > 0 ? (
@@ -243,6 +243,10 @@ const styles = StyleSheet.create({
   list: {
     paddingHorizontal: PADDING,
     paddingTop: 4,
+  },
+  listEmpty: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   countLabel: {
     color: colors.textSecondary,

@@ -12,6 +12,14 @@ export interface SellerCourse {
   createdAt: string;
 }
 
+export interface SellerCoursesResponse {
+  items: SellerCourse[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
 export interface CreateCourseRequest {
   title: string;
   description: string;

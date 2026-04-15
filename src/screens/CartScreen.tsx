@@ -8,10 +8,10 @@ import {
   ActivityIndicator,
   StyleSheet,
   Alert,
+  Platform,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useCart, useRemoveFromCart, useCheckout } from '../hooks/useCart';
-import { CheckoutConflictError } from '../api/cartApi';
 import { Course } from '../types/course';
 import { CartScreenProps } from '../types/navigation';
 import { colors } from '../config/theme';
@@ -36,15 +36,8 @@ export default function CartScreen({ navigation }: CartScreenProps) {
       onSuccess: (order) => {
         navigation.replace('OrderDetail', { idOrder: order.idOrder });
       },
-      onError: (error) => {
-        if (error instanceof CheckoutConflictError || (error as CheckoutConflictError).isConflict) {
-          Alert.alert(
-            'Nie można złożyć zamówienia',
-            'Niektóre kursy z koszyka zostały już przez Ciebie zakupione.',
-          );
-        } else {
-          Alert.alert('Błąd', 'Nie udało się złożyć zamówienia. Spróbuj ponownie.');
-        }
+      onError: () => {
+        Alert.alert('Błąd', 'Nie udało się złożyć zamówienia. Spróbuj ponownie.');
       },
     });
   };
@@ -171,15 +164,20 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingTop: Platform.OS === 'android' ? 20 : 60,
     paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
+    paddingBottom: 16,
+    gap: 16,
   },
   backBtn: {
-    width: 40,
-    padding: 8,
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   screenTitle: {
     color: colors.textPrimary,

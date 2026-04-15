@@ -1,7 +1,7 @@
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { Notification } from '../api/notificationsApi';
+import { Notification } from './notification';
 
 export type RootStackParamList = {
   Login: undefined;

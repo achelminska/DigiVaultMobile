@@ -1,41 +1,14 @@
 import { authRequest } from './config';
-
-export interface UserProfile {
-  email: string;
-  firstName: string;
-  lastName: string;
-  balance: number;
-  totalWithdrawn: number;
-  warningsCount: number;
-}
-
-export interface UpdateNameRequest {
-  idUser: number;
-  firstName: string;
-  lastName: string;
-}
-
-export interface UpdateEmailRequest {
-  idUser: number;
-  email: string;
-  password: string;
-}
-
-export interface UpdatePasswordRequest {
-  idUser: number;
-  password: string;
-  newPassword: string;
-  newPasswordConfirmation: string;
-}
+import { UserProfile, UpdateNameRequest, UpdateEmailRequest, UpdatePasswordRequest } from '../types/user';
 
 export const fetchUserProfile = (): Promise<UserProfile> =>
-  authRequest<UserProfile>('/api/Profile');
+  authRequest<UserProfile>('/api/profile');
 
 export const updateName = (data: UpdateNameRequest): Promise<void> =>
-  authRequest<void>('/api/Profile/name', { method: 'PATCH', body: JSON.stringify(data) });
+  authRequest<void>('/api/profile/name', { method: 'PATCH', body: JSON.stringify(data) });
 
 export const updateEmail = (data: UpdateEmailRequest): Promise<void> =>
-  authRequest<void>('/api/Profile/email', { method: 'PATCH', body: JSON.stringify(data) });
+  authRequest<void>('/api/profile/email', { method: 'PATCH', body: JSON.stringify(data) });
 
 export const updatePassword = (data: UpdatePasswordRequest): Promise<void> =>
-  authRequest<void>('/api/Profile/password', { method: 'PATCH', body: JSON.stringify(data) });
+  authRequest<void>('/api/profile/password', { method: 'PATCH', body: JSON.stringify(data) });

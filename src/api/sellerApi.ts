@@ -1,31 +1,29 @@
 import { authRequest } from './config';
-import { SellerCourse, CreateCourseRequest, UpdateCourseRequest } from '../types/seller';
+import { SellerCourse, CreateCourseRequest, UpdateCourseRequest, SellerCoursesResponse } from '../types/seller';
 
-export interface SellerCoursesResponse {
-  items: SellerCourse[];
-  total: number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
-}
 
-export const fetchSellerCourses = (): Promise<SellerCoursesResponse> =>
-  authRequest<SellerCoursesResponse>('/api/Seller/courses?page=1&pageSize=100');
+export const fetchSellerCourses = async (): Promise<SellerCoursesResponse> => {
+  const data = await authRequest<SellerCoursesResponse | SellerCourse[]>('/api/seller/courses?page=1&pageSize=100');
+  if (Array.isArray(data)) {
+    return { items: data, total: data.length, page: 1, pageSize: 100, totalPages: 1 };
+  }
+  return data;
+};
 
 export const createCourse = (data: CreateCourseRequest): Promise<{ idCourse: number }> =>
-  authRequest<{ idCourse: number }>('/api/Seller/courses', {
+  authRequest<{ idCourse: number }>('/api/seller/courses', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 
 export const updateCourse = (idCourse: number, data: UpdateCourseRequest): Promise<void> =>
-  authRequest<void>(`/api/Seller/courses/${idCourse}`, {
+  authRequest<void>(`/api/seller/courses/${idCourse}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
 
 export const toggleCourseVisibility = (idCourse: number, isVisible: boolean): Promise<void> =>
-  authRequest<void>(`/api/Seller/courses/${idCourse}/visibility`, {
+  authRequest<void>(`/api/seller/courses/${idCourse}/visibility`, {
     method: 'PATCH',
     body: JSON.stringify({ isVisible }),
   });

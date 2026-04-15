@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useNotifications, useMarkAsRead } from '../hooks/useNotifications';
-import { Notification } from '../api/notificationsApi';
+import { Notification } from '../types/notification';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import { colors } from '../config/theme';
@@ -86,7 +86,8 @@ export default function NotificationsScreen({ navigation }: Props) {
           keyExtractor={item => item.idNotification.toString()}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.list}
+          style={{ flex: 1 }}
+          contentContainerStyle={[styles.list, notifications.length === 0 && styles.listEmpty]}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListEmptyComponent={
             <View style={styles.centered}>
@@ -172,6 +173,11 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 20,
+  },
+  listEmpty: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   separator: {
     height: 1,

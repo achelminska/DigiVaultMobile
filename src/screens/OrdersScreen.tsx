@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useOrders } from '../hooks/useOrders';
@@ -57,7 +58,7 @@ export default function OrdersScreen({ navigation }: OrdersScreenProps) {
           <AntDesignIcon name="arrowleft" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={styles.title}>Moje zamówienia</Text>
-        <View style={styles.backBtn} />
+        <View style={styles.headerSpacer} />
       </View>
 
       {isLoading && (
@@ -110,15 +111,23 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingTop: Platform.OS === 'android' ? 20 : 60,
     paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
+    paddingBottom: 16,
+    gap: 16,
   },
   backBtn: {
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerSpacer: {
+    width: 36,
+    height: 36,
   },
   title: {
     color: colors.textPrimary,

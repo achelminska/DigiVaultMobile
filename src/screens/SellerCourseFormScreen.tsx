@@ -26,7 +26,7 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
   const { data: sellerData } = useSellerCourses();
 
   const existingCourse = idCourse
-    ? sellerData?.items.find(c => c.idCourse === idCourse)
+    ? sellerData?.items?.find(c => c.idCourse === idCourse)
     : undefined;
 
   const [title, setTitle] = useState('');
@@ -73,7 +73,7 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
           Alert.alert('Sukces', 'Kurs został zaktualizowany.');
           navigation.goBack();
         },
-        onError: () => Alert.alert('Błąd', 'Nie udało się zaktualizować kursu.'),
+        onError: (e) => Alert.alert('Błąd', (e as Error).message || 'Nie udało się zaktualizować kursu.'),
       });
     } else {
       createCourse(payload, {
@@ -81,7 +81,7 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
           Alert.alert('Sukces', 'Kurs został utworzony!');
           navigation.navigate('SellerDashboard');
         },
-        onError: () => Alert.alert('Błąd', 'Nie udało się utworzyć kursu.'),
+        onError: (e) => Alert.alert('Błąd', (e as Error).message || 'Nie udało się utworzyć kursu.'),
       });
     }
   };

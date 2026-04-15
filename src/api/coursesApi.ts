@@ -26,4 +26,4 @@ export const fetchCourseSearch = (params: {
 };
 
 export const fetchPurchasedCourses = (): Promise<Course[]> =>
-  authRequest<Course[]>('/api/Courses/purchased');
+  authRequest<Course[]>('/api/courses/purchased');

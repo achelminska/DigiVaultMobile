@@ -2,7 +2,7 @@ import { authRequest } from './config';
 import { Order, OrderSummary } from '../types/order';
 
 export const fetchOrders = (): Promise<OrderSummary[]> =>
-  authRequest<OrderSummary[]>('/api/Orders');
+  authRequest<OrderSummary[]>('/api/orders');
 
 export const fetchOrderById = (idOrder: number): Promise<Order> =>
-  authRequest<Order>(`/api/Orders/${idOrder}`);
+  authRequest<Order>(`/api/orders/${idOrder}`);
