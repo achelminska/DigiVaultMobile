@@ -36,7 +36,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         <View>
           <Text style={styles.welcomeLabel}>Hello,</Text>
           <Text style={styles.welcomeName}>
-            {firstName ?? 'DigiVault 👋'}
+            {firstName ?? 'My Dear Guest 👋'}
           </Text>
         </View>
         <View style={styles.headerActions}>
