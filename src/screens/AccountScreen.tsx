@@ -48,12 +48,12 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 
   const handleLogout = () => {
     Alert.alert(
-      'Wyloguj się',
-      'Czy na pewno chcesz się wylogować?',
+      'Log out',
+      'Are you sure you want to log out?',
       [
-        { text: 'Anuluj', style: 'cancel' },
+        { text: 'Cancel', style: 'cancel' },
         {
-          text: 'Wyloguj',
+          text: 'Log out',
           style: 'destructive',
           onPress: async () => {
             await AsyncStorage.removeItem('token');
@@ -69,7 +69,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.screenTitle}>Konto</Text>
+          <Text style={styles.screenTitle}>Account</Text>
           <Text style={styles.userName}>{fullName}</Text>
         </View>
         <View style={styles.headerActions}>
@@ -81,25 +81,25 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
       <View style={styles.menuSection}>
         <MenuRow
           icon="idcard"
-          label="Dane konta"
+          label="Account details"
           onPress={() => navigation.navigate('UserProfile')}
         />
         <View style={styles.separator} />
         <MenuRow
           icon="bells"
-          label="Powiadomienia"
+          label="Notifications"
           onPress={() => navigation.navigate('Notifications')}
         />
         <View style={styles.separator} />
         <MenuRow
           icon="shoppingcart"
-          label="Moje zamówienia"
+          label="My orders"
           onPress={() => navigation.navigate('Orders')}
         />
         <View style={styles.separator} />
         <MenuRow
           icon="edit"
-          label="Moje kursy"
+          label="My courses"
           onPress={() => navigation.navigate('SellerDashboard')}
         />
       </View>
@@ -107,7 +107,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
       <View style={[styles.menuSection, styles.menuSectionDanger]}>
         <MenuRow
           icon="logout"
-          label="Wyloguj się"
+          label="Log out"
           onPress={handleLogout}
           danger
         />

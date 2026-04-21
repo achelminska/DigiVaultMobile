@@ -53,11 +53,11 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
   const isPending = creating || updating;
 
   const handleSubmit = () => {
-    if (!title.trim()) { Alert.alert('Błąd', 'Podaj tytuł kursu.'); return; }
-    if (!description.trim()) { Alert.alert('Błąd', 'Podaj opis kursu.'); return; }
+    if (!title.trim()) { Alert.alert('Error', 'Please enter a course title.'); return; }
+    if (!description.trim()) { Alert.alert('Error', 'Please enter a course description.'); return; }
     const parsedPrice = parseFloat(price);
-    if (isNaN(parsedPrice) || parsedPrice <= 0) { Alert.alert('Błąd', 'Podaj poprawną cenę.'); return; }
-    if (!idCategory) { Alert.alert('Błąd', 'Wybierz kategorię.'); return; }
+    if (isNaN(parsedPrice) || parsedPrice <= 0) { Alert.alert('Error', 'Please enter a valid price.'); return; }
+    if (!idCategory) { Alert.alert('Error', 'Please select a category.'); return; }
 
     const payload = {
       title: title.trim(),
@@ -70,18 +70,18 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
     if (isEditing) {
       updateCourse(payload, {
         onSuccess: () => {
-          Alert.alert('Sukces', 'Kurs został zaktualizowany.');
+          Alert.alert('Success', 'Course updated successfully.');
           navigation.goBack();
         },
-        onError: (e) => Alert.alert('Błąd', (e as Error).message || 'Nie udało się zaktualizować kursu.'),
+        onError: (e) => Alert.alert('Error', (e as Error).message || 'Failed to update the course.'),
       });
     } else {
       createCourse(payload, {
         onSuccess: () => {
-          Alert.alert('Sukces', 'Kurs został utworzony!');
+          Alert.alert('Success', 'Course created successfully!');
           navigation.navigate('SellerDashboard');
         },
-        onError: (e) => Alert.alert('Błąd', (e as Error).message || 'Nie udało się utworzyć kursu.'),
+        onError: (e) => Alert.alert('Error', (e as Error).message || 'Failed to create the course.'),
       });
     }
   };
@@ -92,15 +92,15 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
           <AntDesignIcon name="arrowleft" size={20} color={colors.white} />
         </TouchableOpacity>
-        <Text style={styles.screenTitle}>{isEditing ? 'Edytuj kurs' : 'Nowy kurs'}</Text>
+        <Text style={styles.screenTitle}>{isEditing ? 'Edit course' : 'New course'}</Text>
       </View>
 
       <View style={styles.form}>
         <View style={styles.field}>
-          <Text style={styles.label}>Tytuł</Text>
+          <Text style={styles.label}>Title</Text>
           <TextInput
             style={styles.input}
-            placeholder="Nazwa kursu..."
+            placeholder="Course name..."
             placeholderTextColor={colors.textFaint}
             value={title}
             onChangeText={setTitle}
@@ -108,10 +108,10 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
         </View>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Opis</Text>
+          <Text style={styles.label}>Description</Text>
           <TextInput
             style={[styles.input, styles.inputMultiline]}
-            placeholder="Opis kursu..."
+            placeholder="Course description..."
             placeholderTextColor={colors.textFaint}
             value={description}
             onChangeText={setDescription}
@@ -122,7 +122,7 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
         </View>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Cena (PLN)</Text>
+          <Text style={styles.label}>Price (PLN)</Text>
           <TextInput
             style={styles.input}
             placeholder="np. 49.99"
@@ -134,7 +134,7 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
         </View>
 
         <View style={styles.field}>
-          <Text style={styles.label}>URL obrazka (opcjonalnie)</Text>
+          <Text style={styles.label}>Image URL (optional)</Text>
           <TextInput
             style={styles.input}
             placeholder="https://..."
@@ -147,7 +147,7 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
         </View>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Kategoria</Text>
+          <Text style={styles.label}>Category</Text>
           <View style={styles.categoriesGrid}>
             {categoriesData?.map(cat => (
               <TouchableOpacity
@@ -170,7 +170,7 @@ export default function SellerCourseFormScreen({ route, navigation }: SellerCour
         >
           {isPending
             ? <ActivityIndicator color={colors.black} />
-            : <Text style={styles.submitBtnText}>{isEditing ? 'Zapisz zmiany' : 'Utwórz kurs'}</Text>
+            : <Text style={styles.submitBtnText}>{isEditing ? 'Save changes' : 'Create course'}</Text>
           }
         </TouchableOpacity>
       </View>

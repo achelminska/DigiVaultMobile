@@ -16,7 +16,7 @@ import { colors } from '../config/theme';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('pl-PL', {
+  return date.toLocaleDateString('en-GB', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -33,14 +33,14 @@ function OrderCard({ order, onPress }: OrderCardProps) {
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.75}>
       <View style={styles.cardContent}>
         <View style={styles.cardLeft}>
-          <Text style={styles.orderId}>Zamówienie #{order.idOrder}</Text>
+          <Text style={styles.orderId}>Order #{order.idOrder}</Text>
           <Text style={styles.orderDate}>{formatDate(order.createdAt)}</Text>
           <Text style={styles.itemsCount}>
-            {order.itemsCount} {order.itemsCount === 1 ? 'kurs' : order.itemsCount < 5 ? 'kursy' : 'kursów'}
+            {order.itemsCount} {order.itemsCount === 1 ? 'course' : 'courses'}
           </Text>
         </View>
         <View style={styles.cardRight}>
-          <Text style={styles.orderPrice}>{order.totalPrice.toFixed(2)} zł</Text>
+          <Text style={styles.orderPrice}>{order.totalPrice.toFixed(2)} PLN</Text>
           <AntDesignIcon name="right" size={14} color={colors.textFaint} />
         </View>
       </View>
@@ -57,7 +57,7 @@ export default function OrdersScreen({ navigation }: OrdersScreenProps) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <AntDesignIcon name="arrowleft" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Moje zamówienia</Text>
+        <Text style={styles.title}>My orders</Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -70,9 +70,9 @@ export default function OrdersScreen({ navigation }: OrdersScreenProps) {
       {isError && (
         <View style={styles.centered}>
           <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyText}>Nie udało się pobrać zamówień</Text>
+          <Text style={styles.emptyText}>Failed to load orders</Text>
           <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -80,8 +80,8 @@ export default function OrdersScreen({ navigation }: OrdersScreenProps) {
       {!isLoading && !isError && orders.length === 0 && (
         <View style={styles.centered}>
           <AntDesignIcon name="shoppingcart" size={64} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Brak zamówień</Text>
-          <Text style={styles.emptyText}>Twoje przyszłe zakupy pojawią się tutaj</Text>
+          <Text style={styles.emptyTitle}>No orders yet</Text>
+          <Text style={styles.emptyText}>Your future purchases will appear here</Text>
         </View>
       )}
 

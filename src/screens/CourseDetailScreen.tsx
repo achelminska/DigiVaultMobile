@@ -65,28 +65,28 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
 
   const handleSubmitReview = () => {
     if (reviewRating === 0) {
-      Alert.alert('Błąd', 'Wybierz ocenę (1–5 gwiazdek).');
+      Alert.alert('Error', 'Please select a rating (1–5 stars).');
       return;
     }
     if (!reviewComment.trim()) {
-      Alert.alert('Błąd', 'Napisz komentarz do recenzji.');
+      Alert.alert('Error', 'Please write a comment for your review.');
       return;
     }
     if (!idUser) return;
     submitReview(
       { idUser, idCourse, rating: reviewRating, comment: reviewComment.trim() },
       {
-        onSuccess: () => Alert.alert('Sukces', myReview ? 'Recenzja zaktualizowana.' : 'Recenzja dodana.'),
-        onError: () => Alert.alert('Błąd', 'Nie udało się zapisać recenzji.'),
+        onSuccess: () => Alert.alert('Success', myReview ? 'Review updated.' : 'Review submitted.'),
+        onError: () => Alert.alert('Error', 'Failed to save the review.'),
       }
     );
   };
 
   const handleDeleteReview = () => {
-    Alert.alert('Usuń recenzję', 'Czy na pewno chcesz usunąć swoją recenzję?', [
-      { text: 'Anuluj', style: 'cancel' },
+    Alert.alert('Delete review', 'Are you sure you want to delete your review?', [
+      { text: 'Cancel', style: 'cancel' },
       {
-        text: 'Usuń',
+        text: 'Delete',
         style: 'destructive',
         onPress: () =>
           removeReview(undefined, {
@@ -94,7 +94,7 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
               setReviewRating(0);
               setReviewComment('');
             },
-            onError: () => Alert.alert('Błąd', 'Nie udało się usunąć recenzji.'),
+            onError: () => Alert.alert('Error', 'Failed to delete the review.'),
           }),
       },
     ]);
@@ -161,7 +161,7 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
             {isPurchased && (
               <View style={styles.purchasedChip}>
                 <AntDesignIcon name="checkcircle" size={12} color="#4CAF50" />
-                <Text style={styles.purchasedChipText}>Zakupiono</Text>
+                <Text style={styles.purchasedChipText}>Purchased</Text>
               </View>
             )}
           </View>
@@ -204,14 +204,14 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
           <View style={styles.divider} />
 
           <Text style={styles.sectionTitle}>
-            Recenzje {reviews.length > 0 && <Text style={styles.reviewsCount}>({reviews.length})</Text>}
+            Reviews {reviews.length > 0 && <Text style={styles.reviewsCount}>({reviews.length})</Text>}
           </Text>
 
-          {/* FORMULARZ RECENZJI — tylko dla zakupionych kursów */}
+          {/* REVIEW FORM — only for purchased courses */}
           {isPurchased && (
             <View style={styles.reviewForm}>
               <Text style={styles.reviewFormTitle}>
-                {myReview ? 'Twoja recenzja' : 'Dodaj recenzję'}
+                {myReview ? 'Your review' : 'Add a review'}
               </Text>
               <StarPicker
                 value={reviewRating}
@@ -220,7 +220,7 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
               />
               <TextInput
                 style={styles.reviewInput}
-                placeholder="Napisz komentarz..."
+                  placeholder="Write a comment..."
                 placeholderTextColor={colors.textFaint}
                 value={reviewComment}
                 onChangeText={setReviewComment}
@@ -248,7 +248,7 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
                 >
                   {submittingReview
                     ? <ActivityIndicator size="small" color={colors.black} />
-                    : <Text style={styles.submitReviewBtnText}>{myReview ? 'Zaktualizuj' : 'Opublikuj'}</Text>
+                    : <Text style={styles.submitReviewBtnText}>{myReview ? 'Update' : 'Publish'}</Text>
                   }
                 </TouchableOpacity>
               </View>
@@ -262,7 +262,7 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
           {!loadingReviews && reviews.length === 0 && (
             <View style={styles.reviewsPlaceholder}>
               <AntDesignIcon name="message1" size={32} color={colors.border} />
-              <Text style={styles.reviewsPlaceholderText}>Brak recenzji</Text>
+              <Text style={styles.reviewsPlaceholderText}>No reviews yet</Text>
             </View>
           )}
 
@@ -274,7 +274,7 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
                   <StarRating rating={review.rating} />
                 </View>
                 <Text style={styles.reviewDate}>
-                  {new Date(review.createdAt).toLocaleDateString('pl-PL', {
+                  {new Date(review.createdAt).toLocaleDateString('en-GB', {
                     year: 'numeric', month: 'long', day: 'numeric',
                   })}
                 </Text>
@@ -312,7 +312,7 @@ export default function CourseDetailScreen({ route, navigation }: CourseDetailSc
         {isPurchased ? (
           <View style={[styles.buyBtn, styles.buyBtnPurchased]}>
             <AntDesignIcon name="checkcircle" size={16} color="#4CAF50" />
-            <Text style={styles.buyBtnTextPurchased}>Zakupiono</Text>
+            <Text style={styles.buyBtnTextPurchased}>Purchased</Text>
           </View>
         ) : (
           <TouchableOpacity

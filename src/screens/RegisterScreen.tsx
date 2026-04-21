@@ -42,7 +42,7 @@ export default function RegisterScreen({ navigation }: Props) {
   }, []);
 
   const { mutate: handleRegister, isPending } = useRegister(() => {
-    Alert.alert('Sukces', 'Konto zostało utworzone. Możesz się zalogować.', [
+    Alert.alert('Success', 'Account created. You can now log in.', [
       { text: 'OK', onPress: () => navigation.navigate('Login') },
     ]);
   });
@@ -64,8 +64,8 @@ export default function RegisterScreen({ navigation }: Props) {
         onError: (error: any) => {
           const message = Array.isArray(error?.errors)
             ? error.errors.join('\n')
-            : error?.message ?? 'Nie udało się utworzyć konta.';
-          Alert.alert('Błąd rejestracji', message);
+            : error?.message ?? 'Failed to create account.';
+          Alert.alert('Registration error', message);
         },
       }
     );

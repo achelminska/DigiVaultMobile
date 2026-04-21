@@ -37,7 +37,7 @@ export default function CartScreen({ navigation }: CartScreenProps) {
         navigation.replace('OrderDetail', { idOrder: order.idOrder });
       },
       onError: () => {
-        Alert.alert('Błąd', 'Nie udało się złożyć zamówienia. Spróbuj ponownie.');
+        Alert.alert('Error', 'Failed to place the order. Please try again.');
       },
     });
   };
@@ -92,7 +92,7 @@ export default function CartScreen({ navigation }: CartScreenProps) {
           <AntDesignIcon name="arrowleft" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={styles.screenTitle}>Cart</Text>
-        <View style={styles.backBtn} />
+        <View style={styles.headerSpacer} />
       </View>
 
       {isLoading && (
@@ -178,6 +178,9 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  headerSpacer: {
+    width: 36,
   },
   screenTitle: {
     color: colors.textPrimary,

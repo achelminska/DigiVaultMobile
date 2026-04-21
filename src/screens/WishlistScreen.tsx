@@ -57,7 +57,7 @@ function WishlistItem({ item, inCart, isPurchased, addingToCart, onPress, onAddT
           {isPurchased ? (
             <View style={styles.purchasedBadge}>
               <AntDesignIcon name="checkcircle" size={12} color="#4CAF50" />
-              <Text style={styles.purchasedText}>Zakupiono</Text>
+              <Text style={styles.purchasedText}>Purchased</Text>
             </View>
           ) : (
             <TouchableOpacity
@@ -71,7 +71,7 @@ function WishlistItem({ item, inCart, isPurchased, addingToCart, onPress, onAddT
                 color={inCart ? colors.textFaint : colors.black}
               />
               <Text style={[styles.cartBtnText, inCart && styles.cartBtnTextInCart]}>
-                {inCart ? 'W koszyku' : addingToCart ? '...' : 'Dodaj do koszyka'}
+                {inCart ? 'In cart' : addingToCart ? '...' : 'Add to cart'}
               </Text>
             </TouchableOpacity>
           )}
@@ -98,7 +98,7 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.screenTitle}>Lista życzeń</Text>
+        <Text style={styles.screenTitle}>Wishlist</Text>
         <View style={styles.headerActions}>
           <NotificationBell onPress={() => navigation.navigate('Notifications')} />
           <CartIconButton onPress={() => navigation.navigate('Cart')} />
@@ -111,9 +111,9 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
 
       {isError && (
         <View style={styles.errorWrap}>
-          <Text style={styles.errorText}>Coś poszło nie tak.</Text>
+          <Text style={styles.errorText}>Something went wrong.</Text>
           <TouchableOpacity onPress={() => refetch()} style={styles.retryBtn}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -121,8 +121,8 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
       {!isLoading && !isError && courses.length === 0 && (
         <View style={styles.emptyWrap}>
           <AntDesignIcon name="hearto" size={42} color={colors.iconFaint} />
-          <Text style={styles.emptyText}>Lista życzeń jest pusta</Text>
-          <Text style={styles.emptySubText}>Zapisuj kursy, które Cię interesują</Text>
+          <Text style={styles.emptyText}>Your wishlist is empty</Text>
+          <Text style={styles.emptySubText}>Save courses you're interested in</Text>
         </View>
       )}
 
@@ -146,7 +146,7 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={
             <Text style={styles.countLabel}>
-              {courses.length} {courses.length === 1 ? 'kurs' : courses.length < 5 ? 'kursy' : 'kursów'}
+              {courses.length} {courses.length === 1 ? 'course' : 'courses'}
             </Text>
           }
           ListFooterComponent={<View style={{ height: 32 }} />}

@@ -54,7 +54,7 @@ export default function MyVaultScreen({ navigation }: MyVaultScreenProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.screenTitle}>Moje kursy</Text>
+        <Text style={styles.screenTitle}>My Vault</Text>
         <View style={styles.headerActions}>
           <NotificationBell onPress={() => navigation.navigate('Notifications')} />
           <CartIconButton onPress={() => navigation.navigate('Cart')} />
@@ -70,9 +70,9 @@ export default function MyVaultScreen({ navigation }: MyVaultScreenProps) {
       {isError && (
         <View style={styles.centered}>
           <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Coś poszło nie tak</Text>
+          <Text style={styles.emptyTitle}>Something went wrong</Text>
           <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -80,8 +80,8 @@ export default function MyVaultScreen({ navigation }: MyVaultScreenProps) {
       {!isLoading && !isError && courses.length === 0 && (
         <View style={styles.centered}>
           <AntDesignIcon name="playcircleo" size={64} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Brak kursów</Text>
-          <Text style={styles.emptyText}>Zakupione kursy pojawią się tutaj</Text>
+          <Text style={styles.emptyTitle}>No courses yet</Text>
+          <Text style={styles.emptyText}>Your purchased courses will appear here</Text>
         </View>
       )}
 
@@ -95,7 +95,7 @@ export default function MyVaultScreen({ navigation }: MyVaultScreenProps) {
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={
             <Text style={styles.countLabel}>
-              {courses.length} {courses.length === 1 ? 'kurs' : courses.length < 5 ? 'kursy' : 'kursów'}
+              {courses.length} {courses.length === 1 ? 'course' : 'courses'}
             </Text>
           }
           ListFooterComponent={<View style={{ height: 32 }} />}

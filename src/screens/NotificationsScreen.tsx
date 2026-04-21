@@ -36,7 +36,7 @@ export default function NotificationsScreen({ navigation }: Props) {
         <View style={styles.itemHeader}>
           <Text style={styles.itemTitle} numberOfLines={1}>{item.title}</Text>
           <Text style={styles.itemDate}>
-            {new Date(item.createdAt).toLocaleDateString('pl-PL', {
+            {new Date(item.createdAt).toLocaleDateString('en-GB', {
               day: '2-digit', month: '2-digit', year: 'numeric',
             })}
           </Text>
@@ -55,7 +55,7 @@ export default function NotificationsScreen({ navigation }: Props) {
           <AntDesignIcon name="arrowleft" size={20} color={colors.white} />
         </TouchableOpacity>
         <View style={styles.headerTitle}>
-          <Text style={styles.screenTitle}>Powiadomienia</Text>
+          <Text style={styles.screenTitle}>Notifications</Text>
           {unreadCount > 0 && (
             <View style={styles.badge}>
               <Text style={styles.badgeText}>{unreadCount}</Text>
@@ -73,9 +73,9 @@ export default function NotificationsScreen({ navigation }: Props) {
       {isError && (
         <View style={styles.centered}>
           <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Coś poszło nie tak</Text>
+          <Text style={styles.emptyTitle}>Something went wrong</Text>
           <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -92,7 +92,7 @@ export default function NotificationsScreen({ navigation }: Props) {
           ListEmptyComponent={
             <View style={styles.centered}>
               <AntDesignIcon name="bells" size={48} color={colors.textFaint} />
-              <Text style={styles.emptyTitle}>Brak powiadomień</Text>
+              <Text style={styles.emptyTitle}>No notifications</Text>
             </View>
           }
           ListFooterComponent={<View style={{ height: 40 }} />}

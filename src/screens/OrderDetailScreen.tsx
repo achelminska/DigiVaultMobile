@@ -14,7 +14,7 @@ import { colors } from '../config/theme';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('pl-PL', {
+  return date.toLocaleDateString('en-GB', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -33,7 +33,7 @@ export default function OrderDetailScreen({ navigation, route }: OrderDetailScre
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <AntDesignIcon name="arrowleft" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Zamówienie #{idOrder}</Text>
+        <Text style={styles.title}>Order #{idOrder}</Text>
         <View style={styles.backBtn} />
       </View>
 
@@ -46,9 +46,9 @@ export default function OrderDetailScreen({ navigation, route }: OrderDetailScre
       {isError && (
         <View style={styles.centered}>
           <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.errorText}>Nie udało się pobrać zamówienia</Text>
+          <Text style={styles.errorText}>Failed to load order</Text>
           <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -57,22 +57,22 @@ export default function OrderDetailScreen({ navigation, route }: OrderDetailScre
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.summaryCard}>
             <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>Data zamówienia</Text>
+              <Text style={styles.summaryLabel}>Order date</Text>
               <Text style={styles.summaryValue}>{formatDate(order.createdAt)}</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>Liczba kursów</Text>
+              <Text style={styles.summaryLabel}>Courses</Text>
               <Text style={styles.summaryValue}>{order.itemsCount}</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>Łączna kwota</Text>
-              <Text style={styles.totalPrice}>{order.totalPrice.toFixed(2)} zł</Text>
+              <Text style={styles.summaryLabel}>Total</Text>
+              <Text style={styles.totalPrice}>{order.totalPrice.toFixed(2)} PLN</Text>
             </View>
           </View>
 
-          <Text style={styles.sectionTitle}>Zakupione kursy</Text>
+          <Text style={styles.sectionTitle}>Purchased courses</Text>
 
           <View style={styles.itemsList}>
             {order.orderItems.map((item, index) => (
@@ -83,7 +83,7 @@ export default function OrderDetailScreen({ navigation, route }: OrderDetailScre
                   activeOpacity={0.7}>
                   <View style={styles.courseInfo}>
                     <Text style={styles.courseTitle} numberOfLines={2}>{item.title}</Text>
-                    <Text style={styles.coursePrice}>{item.price.toFixed(2)} zł</Text>
+                    <Text style={styles.coursePrice}>{item.price.toFixed(2)} PLN</Text>
                   </View>
                   <AntDesignIcon name="right" size={14} color={colors.textFaint} />
                 </TouchableOpacity>

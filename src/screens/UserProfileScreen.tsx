@@ -59,14 +59,14 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
   const handleSaveName = () => {
     if (!idUser) return;
     if (!firstName.trim() || !lastName.trim()) {
-      Alert.alert('Błąd', 'Imię i nazwisko nie mogą być puste.');
+      Alert.alert('Error', 'First name and last name cannot be empty.');
       return;
     }
     updateName.mutate(
       { idUser, firstName: firstName.trim(), lastName: lastName.trim() },
       {
         onSuccess: () => setEditing(null),
-        onError: () => Alert.alert('Błąd', 'Nie udało się zaktualizować imienia i nazwiska.'),
+        onError: () => Alert.alert('Error', 'Failed to update name.'),
       },
     );
   };
@@ -74,14 +74,14 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
   const handleSaveEmail = () => {
     if (!idUser) return;
     if (!email.trim() || !emailPassword) {
-      Alert.alert('Błąd', 'Wypełnij wszystkie pola.');
+      Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
     updateEmail.mutate(
       { idUser, email: email.trim(), password: emailPassword },
       {
         onSuccess: () => setEditing(null),
-        onError: () => Alert.alert('Błąd', 'Nie udało się zaktualizować e-maila. Sprawdź hasło.'),
+        onError: () => Alert.alert('Error', 'Failed to update email. Please check your password.'),
       },
     );
   };
@@ -89,11 +89,11 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
   const handleSavePassword = () => {
     if (!idUser) return;
     if (!currentPassword || !newPassword || !confirmPassword) {
-      Alert.alert('Błąd', 'Wypełnij wszystkie pola.');
+      Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
     if (newPassword !== confirmPassword) {
-      Alert.alert('Błąd', 'Nowe hasła nie są zgodne.');
+      Alert.alert('Error', 'New passwords do not match.');
       return;
     }
     updatePassword.mutate(
@@ -106,9 +106,9 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
       {
         onSuccess: () => {
           setEditing(null);
-          Alert.alert('Sukces', 'Hasło zostało zmienione.');
+          Alert.alert('Success', 'Password changed successfully.');
         },
-        onError: () => Alert.alert('Błąd', 'Nie udało się zmienić hasła. Sprawdź aktualne hasło.'),
+        onError: () => Alert.alert('Error', 'Failed to change password. Please check your current password.'),
       },
     );
   };
@@ -119,7 +119,7 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <AntDesignIcon name="arrowleft" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Dane konta</Text>
+        <Text style={styles.title}>Account details</Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -132,9 +132,9 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
       {isError && (
         <View style={styles.centered}>
           <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.errorText}>Nie udało się pobrać danych</Text>
+          <Text style={styles.errorText}>Failed to load profile</Text>
           <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -142,13 +142,13 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
       {profile && (
         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
 
-          {/* ── IMIĘ I NAZWISKO ── */}
+          {/* ── FULL NAME ── */}
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionLabel}>Imię i nazwisko</Text>
+            <Text style={styles.sectionLabel}>Full name</Text>
             {editing !== 'name' && (
               <TouchableOpacity onPress={() => openSection('name')} style={styles.editBtn}>
                 <AntDesignIcon name="edit" size={15} color={colors.textSecondary} />
-                <Text style={styles.editBtnText}>Edytuj</Text>
+                <Text style={styles.editBtnText}>Edit</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -156,25 +156,25 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
           <View style={styles.card}>
             {editing === 'name' ? (
               <View style={styles.formPad}>
-                <Text style={styles.inputLabel}>Imię</Text>
+                <Text style={styles.inputLabel}>First name</Text>
                 <TextInput
                   style={styles.input}
                   value={firstName}
                   onChangeText={setFirstName}
-                  placeholder="Imię"
+                  placeholder="First name"
                   placeholderTextColor={colors.textFaint}
                 />
-                <Text style={styles.inputLabel}>Nazwisko</Text>
+                <Text style={styles.inputLabel}>Last name</Text>
                 <TextInput
                   style={styles.input}
                   value={lastName}
                   onChangeText={setLastName}
-                  placeholder="Nazwisko"
+                  placeholder="Last name"
                   placeholderTextColor={colors.textFaint}
                 />
                 <View style={styles.formBtns}>
                   <TouchableOpacity style={styles.cancelBtn} onPress={cancelEdit}>
-                    <Text style={styles.cancelBtnText}>Anuluj</Text>
+                    <Text style={styles.cancelBtnText}>Cancel</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.saveBtn, updateName.isPending && styles.saveBtnDisabled]}
@@ -182,19 +182,19 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
                     disabled={updateName.isPending}>
                     {updateName.isPending
                       ? <ActivityIndicator size="small" color={colors.black} />
-                      : <Text style={styles.saveBtnText}>Zapisz</Text>}
+                      : <Text style={styles.saveBtnText}>Save</Text>}
                   </TouchableOpacity>
                 </View>
               </View>
             ) : (
               <>
                 <View style={styles.infoRow}>
-                  <Text style={styles.infoLabel}>Imię</Text>
+                  <Text style={styles.infoLabel}>First name</Text>
                   <Text style={styles.infoValue}>{profile.firstName}</Text>
                 </View>
                 <View style={styles.divider} />
                 <View style={styles.infoRow}>
-                  <Text style={styles.infoLabel}>Nazwisko</Text>
+                  <Text style={styles.infoLabel}>Last name</Text>
                   <Text style={styles.infoValue}>{profile.lastName}</Text>
                 </View>
               </>
@@ -207,7 +207,7 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
             {editing !== 'email' && (
               <TouchableOpacity onPress={() => openSection('email')} style={styles.editBtn}>
                 <AntDesignIcon name="edit" size={15} color={colors.textSecondary} />
-                <Text style={styles.editBtnText}>Edytuj</Text>
+                <Text style={styles.editBtnText}>Edit</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -215,7 +215,7 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
           <View style={styles.card}>
             {editing === 'email' ? (
               <View style={styles.formPad}>
-                <Text style={styles.inputLabel}>Nowy e-mail</Text>
+                <Text style={styles.inputLabel}>New e-mail</Text>
                 <TextInput
                   style={styles.input}
                   value={email}
@@ -225,18 +225,18 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
                   keyboardType="email-address"
                   autoCapitalize="none"
                 />
-                <Text style={styles.inputLabel}>Aktualne hasło</Text>
+                <Text style={styles.inputLabel}>Current password</Text>
                 <TextInput
                   style={styles.input}
                   value={emailPassword}
                   onChangeText={setEmailPassword}
-                  placeholder="Hasło"
+                  placeholder="Password"
                   placeholderTextColor={colors.textFaint}
                   secureTextEntry
                 />
                 <View style={styles.formBtns}>
                   <TouchableOpacity style={styles.cancelBtn} onPress={cancelEdit}>
-                    <Text style={styles.cancelBtnText}>Anuluj</Text>
+                    <Text style={styles.cancelBtnText}>Cancel</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.saveBtn, updateEmail.isPending && styles.saveBtnDisabled]}
@@ -244,7 +244,7 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
                     disabled={updateEmail.isPending}>
                     {updateEmail.isPending
                       ? <ActivityIndicator size="small" color={colors.black} />
-                      : <Text style={styles.saveBtnText}>Zapisz</Text>}
+                      : <Text style={styles.saveBtnText}>Save</Text>}
                   </TouchableOpacity>
                 </View>
               </View>
@@ -256,13 +256,13 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
             )}
           </View>
 
-          {/* ── HASŁO ── */}
+          {/* ── PASSWORD ── */}
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionLabel}>Hasło</Text>
+            <Text style={styles.sectionLabel}>Password</Text>
             {editing !== 'password' && (
               <TouchableOpacity onPress={() => openSection('password')} style={styles.editBtn}>
                 <AntDesignIcon name="edit" size={15} color={colors.textSecondary} />
-                <Text style={styles.editBtnText}>Zmień</Text>
+                <Text style={styles.editBtnText}>Change</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -270,36 +270,36 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
           <View style={styles.card}>
             {editing === 'password' ? (
               <View style={styles.formPad}>
-                <Text style={styles.inputLabel}>Aktualne hasło</Text>
+                <Text style={styles.inputLabel}>Current password</Text>
                 <TextInput
                   style={styles.input}
                   value={currentPassword}
                   onChangeText={setCurrentPassword}
-                  placeholder="Aktualne hasło"
+                  placeholder="Current password"
                   placeholderTextColor={colors.textFaint}
                   secureTextEntry
                 />
-                <Text style={styles.inputLabel}>Nowe hasło</Text>
+                <Text style={styles.inputLabel}>New password</Text>
                 <TextInput
                   style={styles.input}
                   value={newPassword}
                   onChangeText={setNewPassword}
-                  placeholder="Nowe hasło"
+                  placeholder="New password"
                   placeholderTextColor={colors.textFaint}
                   secureTextEntry
                 />
-                <Text style={styles.inputLabel}>Powtórz nowe hasło</Text>
+                <Text style={styles.inputLabel}>Confirm new password</Text>
                 <TextInput
                   style={styles.input}
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}
-                  placeholder="Powtórz nowe hasło"
+                  placeholder="Confirm new password"
                   placeholderTextColor={colors.textFaint}
                   secureTextEntry
                 />
                 <View style={styles.formBtns}>
                   <TouchableOpacity style={styles.cancelBtn} onPress={cancelEdit}>
-                    <Text style={styles.cancelBtnText}>Anuluj</Text>
+                    <Text style={styles.cancelBtnText}>Cancel</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.saveBtn, updatePassword.isPending && styles.saveBtnDisabled]}
@@ -307,29 +307,29 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
                     disabled={updatePassword.isPending}>
                     {updatePassword.isPending
                       ? <ActivityIndicator size="small" color={colors.black} />
-                      : <Text style={styles.saveBtnText}>Zapisz</Text>}
+                      : <Text style={styles.saveBtnText}>Save</Text>}
                   </TouchableOpacity>
                 </View>
               </View>
             ) : (
               <View style={styles.infoRow}>
-                <Text style={styles.infoLabel}>Hasło</Text>
+                <Text style={styles.infoLabel}>Password</Text>
                 <Text style={styles.infoValue}>••••••••</Text>
               </View>
             )}
           </View>
 
           {/* ── FINANSE (read-only) ── */}
-          <Text style={[styles.sectionLabel, styles.sectionLabelStandalone]}>Finanse</Text>
+          <Text style={[styles.sectionLabel, styles.sectionLabelStandalone]}>Finances</Text>
           <View style={styles.card}>
             <View style={styles.infoRow}>
-              <Text style={styles.infoLabel}>Saldo</Text>
-              <Text style={styles.infoValue}>{profile.balance.toFixed(2)} zł</Text>
+              <Text style={styles.infoLabel}>Balance</Text>
+              <Text style={styles.infoValue}>{profile.balance.toFixed(2)} PLN</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.infoRow}>
-              <Text style={styles.infoLabel}>Wypłacono łącznie</Text>
-              <Text style={styles.infoValue}>{profile.totalWithdrawn.toFixed(2)} zł</Text>
+              <Text style={styles.infoLabel}>Total withdrawn</Text>
+              <Text style={styles.infoValue}>{profile.totalWithdrawn.toFixed(2)} PLN</Text>
             </View>
           </View>
 

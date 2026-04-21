@@ -101,7 +101,7 @@ export default function SellerDashboardScreen({ navigation }: SellerDashboardScr
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
           <AntDesignIcon name="arrowleft" size={20} color={colors.white} />
         </TouchableOpacity>
-        <Text style={styles.screenTitle}>Moje kursy</Text>
+        <Text style={styles.screenTitle}>My courses</Text>
         <TouchableOpacity
           style={styles.addBtn}
           onPress={() => navigation.navigate('SellerCourseForm', {})}
@@ -119,9 +119,9 @@ export default function SellerDashboardScreen({ navigation }: SellerDashboardScr
       {isError && (
         <View style={styles.centered}>
           <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Coś poszło nie tak</Text>
+          <Text style={styles.emptyTitle}>Something went wrong</Text>
           <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Spróbuj ponownie</Text>
+            <Text style={styles.retryText}>Try again</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -138,20 +138,20 @@ export default function SellerDashboardScreen({ navigation }: SellerDashboardScr
           ListHeaderComponent={
             courses.length > 0 ? (
               <Text style={styles.countLabel}>
-                {courses.length} {courses.length === 1 ? 'kurs' : courses.length < 5 ? 'kursy' : 'kursów'}
+                {courses.length} {courses.length === 1 ? 'course' : 'courses'}
               </Text>
             ) : null
           }
           ListEmptyComponent={
             <View style={styles.centered}>
               <AntDesignIcon name="playcircleo" size={64} color={colors.textFaint} />
-              <Text style={styles.emptyTitle}>Brak kursów</Text>
-              <Text style={styles.emptyText}>Zacznij od stworzenia pierwszego kursu</Text>
+              <Text style={styles.emptyTitle}>No courses yet</Text>
+              <Text style={styles.emptyText}>Start by creating your first course</Text>
               <TouchableOpacity
                 style={styles.createBtn}
                 onPress={() => navigation.navigate('SellerCourseForm', {})}
               >
-                <Text style={styles.createBtnText}>Stwórz swój pierwszy kurs</Text>
+                <Text style={styles.createBtnText}>Create your first course</Text>
               </TouchableOpacity>
             </View>
           }
