@@ -24,6 +24,63 @@ Mobile client for **DigiVault** — an anonymous digital content marketplace whe
 
 ---
 
+## Screenshots
+
+### Browsing
+
+<p align="center">
+  <img src="assets/screenshots/home.png" width="30%" alt="Home" />
+  <img src="assets/screenshots/search.png" width="30%" alt="Search" />
+  <img src="assets/screenshots/course-details1.png" width="30%" alt="Course details" />
+</p>
+<p align="center">
+  <em>Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Course details</em>
+</p>
+
+### Cart, Wishlist & Reviews
+
+<p align="center">
+  <img src="assets/screenshots/cart.png" width="30%" alt="Cart" />
+  <img src="assets/screenshots/wishlist.png" width="30%" alt="Wishlist" />
+  <img src="assets/screenshots/course-details2.png" width="30%" alt="Reviews" />
+</p>
+<p align="center">
+  <em>Cart &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wishlist &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reviews</em>
+</p>
+
+### Orders
+
+<p align="center">
+  <img src="assets/screenshots/orders.png" width="30%" alt="Orders" />
+  <img src="assets/screenshots/order-details.png" width="30%" alt="Order details" />
+</p>
+<p align="center">
+  <em>Orders &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Order details</em>
+</p>
+
+### Account
+
+<p align="center">
+  <img src="assets/screenshots/account.png" width="30%" alt="Account" />
+  <img src="assets/screenshots/account-details.png" width="30%" alt="Account details" />
+  <img src="assets/screenshots/account-details-edit.png" width="30%" alt="Editing account" />
+</p>
+<p align="center">
+  <em>Account &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Account details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Editing</em>
+</p>
+
+### Seller
+
+<p align="center">
+  <img src="assets/screenshots/my-courses.png" width="30%" alt="My courses" />
+  <img src="assets/screenshots/new-course.png" width="30%" alt="New course" />
+</p>
+<p align="center">
+  <em>My courses &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New course</em>
+</p>
+
+---
+
 ## Tech Stack
 
 | Category | Library |
