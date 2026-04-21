@@ -160,22 +160,6 @@ src/
 
 **Android emulator** — the emulator cannot reach `localhost` on the host machine directly. Use the special alias instead:
 
-```env
-API_BASE_URL=http://10.0.2.2:5052
-```
-
-**iOS simulator** — communicates with the host machine via `localhost`:
-
-```env
-API_BASE_URL=http://localhost:5052
-```
-
-**Production** — point to your deployed API:
-
-```env
-API_BASE_URL=https://api.yourdomain.com
-```
-
 > `.env` is listed in `.gitignore` and will never be committed. Use `.env.example` as the source of truth for required variables.
 
 ---
