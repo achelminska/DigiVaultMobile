@@ -153,9 +153,10 @@ src/
 
 ## Environment Variables
 
-| Variable | Description |
-|---|---|
-| `API_BASE_URL` | Base URL of the DigiVault backend API |
+| Variable              | Description                        |
+|-----------------------|------------------------------------|
+| API_BASE_URL_ANDROID  | Backend URL for Android emulator   |
+| API_BASE_URL_IOS      | Backend URL for iOS simulator      |
 
 **Android emulator** — the emulator cannot reach `localhost` on the host machine directly. Use the special alias instead:
 
