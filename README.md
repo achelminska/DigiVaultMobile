@@ -8,6 +8,19 @@
 Mobile client for **DigiVault** — a digital content marketplace where users can browse, purchase, and sell online courses. Built with React Native CLI and TypeScript.
 
 ---
+## Table of Contents
+
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation & Setup](#installation--setup)
+- [Running the App](#running-the-app)
+- [Project Structure](#project-structure)
+- [Environment Variables](#environment-variables)
+- [License](#license)
+
+---
 
 ## Features
 
