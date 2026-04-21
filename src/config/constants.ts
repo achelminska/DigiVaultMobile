@@ -1,5 +1,3 @@
-import { Platform } from 'react-native';
+import { API_BASE_URL } from '@env';
 
-export const BASE_URL = Platform.OS === 'android'
-  ? 'http://10.0.2.2:5052'
-  : 'http://localhost:5052';
+export const BASE_URL = API_BASE_URL;

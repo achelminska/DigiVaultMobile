@@ -1,22 +1,7 @@
-import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '../config/constants';
 
-const getBaseUrl = (): string => {
-  if (__DEV__) {
-    if (Platform.OS === 'android') {
-      return 'http://10.0.2.2:5052';
-    } else if (Platform.OS === 'ios') {
-      return 'http://localhost:5052';
-    }
-  }
-  return 'https://your-production-api.com';
-};
-
-export const BASE_URL = getBaseUrl();
-
-console.log('BASE_URL:', BASE_URL);
-
-// ── Wspólny handler HTTP ──────────────────────────────────────────────────────
+// ── Shared HTTP handler ───────────────────────────────────────────────────────
 
 export async function request<T>(
   endpoint: string,
