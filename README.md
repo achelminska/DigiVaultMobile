@@ -5,7 +5,7 @@
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-Mobile client for **DigiVault** — an anonymous digital content marketplace where users can browse, purchase, and sell online courses. Built with React Native CLI and TypeScript.
+Mobile client for **DigiVault** — a digital content marketplace where users can browse, purchase, and sell online courses. Built with React Native CLI and TypeScript.
 
 ---
 
