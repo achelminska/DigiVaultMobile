@@ -72,7 +72,8 @@ cp .env.example .env
 Open `.env` and fill in your values:
 
 ```env
-API_BASE_URL=http://10.0.2.2:5052
+API_BASE_URL_ANDROID=http://10.0.2.2:5052
+API_BASE_URL_IOS=http://localhost:5052
 ```
 
 > **Note:** Use `http://10.0.2.2:<port>` for Android emulators and `http://localhost:<port>` for iOS simulators. `10.0.2.2` is the loopback alias that routes from the Android emulator to the host machine.
