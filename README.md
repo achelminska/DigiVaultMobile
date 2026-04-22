@@ -4,6 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-🚧_work_in_progress-yellow)
 
 Mobile client for **DigiVault** — a digital content marketplace where users can browse, purchase, and sell online courses. Built with React Native CLI and TypeScript.
 
