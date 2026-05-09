@@ -8,6 +8,14 @@
 
 Mobile client for **DigiVault** — a digital content marketplace where users can browse, purchase, and sell online courses. Built with React Native CLI and TypeScript.
 
+### Live Demo
+
+| Platform | Link | Notes |
+|---|---|---|
+| Android (Appetize.io) | [▶ Run in browser](https://appetize.io/app/b_ana7y3zvsj622xc6jplzm5usau) | No install needed — runs in browser |
+
+> Login: `test` / `test`
+
 ---
 ## Table of Contents
 
