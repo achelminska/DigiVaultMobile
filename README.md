@@ -13,6 +13,7 @@ Mobile client for **DigiVault** — a digital content marketplace where users ca
 | Platform | Link | Notes |
 |---|---|---|
 | Android (Appetize.io) | [▶ Run in browser](https://appetize.io/app/b_ana7y3zvsj622xc6jplzm5usau) | No install needed — runs in browser |
+| iOS (Appetize.io) | [▶ Run in browser](https://appetize.io/app/b_xkrcl5fqxubkpjkuzx47z3vulu) | iPhone 14 Pro simulator |
 
 > Login: `test` / `test`
 
