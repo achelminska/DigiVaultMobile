@@ -9,8 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import NotificationBell from '../components/NotificationBell';
-import CartIconButton from '../components/CartIconButton';
+import AppHeader from '../components/AppHeader';
 import CourseCard from '../components/CourseCard';
 import { useCourseSearch, useCategories } from '../hooks/useCourses';
 import { Course } from '../types/course';
@@ -80,13 +79,11 @@ export default function SearchScreen({ navigation, route }: SearchScreenProps) {
       ListHeaderComponent={
         <View>
           {/* HEADER */}
-          <View style={styles.header}>
-            <Text style={styles.screenTitle}>Search</Text>
-            <View style={styles.headerActions}>
-              <NotificationBell onPress={() => navigation.navigate('Notifications')} />
-              <CartIconButton onPress={() => navigation.navigate('Cart')} />
-            </View>
-          </View>
+          <AppHeader
+            title="Search"
+            onNotificationsPress={() => navigation.navigate('Notifications')}
+            onCartPress={() => navigation.navigate('Cart')}
+          />
 
           {/* SEARCH INPUT */}
           <View style={styles.searchContainer}>
@@ -185,24 +182,6 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 4,
-    paddingTop: 60,
-    paddingBottom: 20,
-  },
-  screenTitle: {
-    color: colors.textPrimary,
-    fontSize: 26,
-    fontWeight: '800',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
   },
   searchContainer: {
     flexDirection: 'row',

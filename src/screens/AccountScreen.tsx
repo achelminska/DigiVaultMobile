@@ -11,8 +11,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCurrentUser } from '../hooks/useCurrentUser';
-import NotificationBell from '../components/NotificationBell';
-import CartIconButton from '../components/CartIconButton';
+import AppHeader from '../components/AppHeader';
 import { AccountScreenProps } from '../types/navigation';
 import { colors } from '../config/theme';
 
@@ -67,16 +66,14 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.screenTitle}>Account</Text>
-          <Text style={styles.userName}>{fullName}</Text>
-        </View>
-        <View style={styles.headerActions}>
-          <NotificationBell onPress={() => navigation.navigate('Notifications')} />
-          <CartIconButton onPress={() => navigation.navigate('Cart')} />
-        </View>
-      </View>
+      <AppHeader
+        title="Account"
+        subtitle={fullName}
+        onNotificationsPress={() => navigation.navigate('Notifications')}
+        onCartPress={() => navigation.navigate('Cart')}
+        paddingBottom={24}
+        alignItems="flex-start"
+      />
 
       <View style={styles.menuSection}>
         <MenuRow
@@ -122,29 +119,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 24,
-  },
-  screenTitle: {
-    color: colors.textPrimary,
-    fontSize: 28,
-    fontWeight: '800',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  userName: {
-    color: colors.textSecondary,
-    fontSize: 16,
-    fontWeight: '400',
   },
   menuSection: {
     marginHorizontal: 20,

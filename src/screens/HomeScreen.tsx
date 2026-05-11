@@ -8,8 +8,7 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import CourseSection from '../components/CourseSection';
-import CartIconButton from '../components/CartIconButton';
-import NotificationBell from '../components/NotificationBell';
+import AppHeader from '../components/AppHeader';
 import { usePopularCourses, useNewestCourses, useTopRatedCourses, useCategories } from '../hooks/useCourses';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import { Course } from '../types/course';
@@ -31,19 +30,13 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 
-      {/* HEADER */}
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.welcomeLabel}>Hello,</Text>
-          <Text style={styles.welcomeName}>
-            {firstName ?? 'My Dear Guest 👋'}
-          </Text>
-        </View>
-        <View style={styles.headerActions}>
-          <NotificationBell onPress={() => navigation.navigate('Notifications')} />
-          <CartIconButton onPress={() => navigation.navigate('Cart')} />
-        </View>
-      </View>
+      <AppHeader
+        label="Hello,"
+        title={firstName ?? 'My Dear Guest 👋'}
+        onNotificationsPress={() => navigation.navigate('Notifications')}
+        onCartPress={() => navigation.navigate('Cart')}
+        paddingBottom={28}
+      />
 
       {/* POPULAR */}
       <CourseSection
@@ -104,29 +97,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 28,
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  welcomeLabel: {
-    color: colors.textLabel,
-    fontSize: 14,
-  },
-  welcomeName: {
-    color: colors.textPrimary,
-    fontSize: 26,
-    fontWeight: '800',
-    marginTop: 2,
   },
   section: {
     marginBottom: 36,

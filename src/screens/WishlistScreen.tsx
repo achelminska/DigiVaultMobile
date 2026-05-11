@@ -9,8 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import CartIconButton from '../components/CartIconButton';
-import NotificationBell from '../components/NotificationBell';
+import AppHeader from '../components/AppHeader';
 import { useWishlist, useRemoveFromWishlist } from '../hooks/useWishlist';
 import { useCart, useAddToCart } from '../hooks/useCart';
 import { usePurchasedCourses } from '../hooks/useCourses';
@@ -97,13 +96,11 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.screenTitle}>Wishlist</Text>
-        <View style={styles.headerActions}>
-          <NotificationBell onPress={() => navigation.navigate('Notifications')} />
-          <CartIconButton onPress={() => navigation.navigate('Cart')} />
-        </View>
-      </View>
+      <AppHeader
+        title="Wishlist"
+        onNotificationsPress={() => navigation.navigate('Notifications')}
+        onCartPress={() => navigation.navigate('Cart')}
+      />
 
       {isLoading && (
         <ActivityIndicator color={colors.textPrimary} style={styles.loader} />
@@ -160,24 +157,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
-  },
-  screenTitle: {
-    color: colors.textPrimary,
-    fontSize: 26,
-    fontWeight: '800',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
   },
   listContent: {
     paddingHorizontal: 20,

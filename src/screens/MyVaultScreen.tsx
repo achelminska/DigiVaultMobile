@@ -9,8 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import NotificationBell from '../components/NotificationBell';
-import CartIconButton from '../components/CartIconButton';
+import AppHeader from '../components/AppHeader';
 import { usePurchasedCourses } from '../hooks/useCourses';
 import { Course } from '../types/course';
 import { MyVaultScreenProps } from '../types/navigation';
@@ -53,13 +52,11 @@ export default function MyVaultScreen({ navigation }: MyVaultScreenProps) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.screenTitle}>My Vault</Text>
-        <View style={styles.headerActions}>
-          <NotificationBell onPress={() => navigation.navigate('Notifications')} />
-          <CartIconButton onPress={() => navigation.navigate('Cart')} />
-        </View>
-      </View>
+      <AppHeader
+        title="My Vault"
+        onNotificationsPress={() => navigation.navigate('Notifications')}
+        onCartPress={() => navigation.navigate('Cart')}
+      />
 
       {isLoading && (
         <View style={styles.centered}>
@@ -109,24 +106,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
-  },
-  screenTitle: {
-    color: colors.textPrimary,
-    fontSize: 28,
-    fontWeight: '800',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
   },
   centered: {
     flex: 1,
