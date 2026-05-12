@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AppHeader from '../components/AppHeader';
+import EmptyState from '../components/EmptyState';
 import CourseCard from '../components/CourseCard';
 import { useCourseSearch, useCategories } from '../hooks/useCourses';
 import { Course } from '../types/course';
@@ -162,11 +163,11 @@ export default function SearchScreen({ navigation, route }: SearchScreenProps) {
             </View>
           )}
           {!isLoading && !isError && courses.length === 0 && (
-            <View style={styles.emptyWrap}>
-              <AntDesignIcon name="search1" size={36} color={colors.iconFaint} />
-              <Text style={styles.emptyText}>No courses found</Text>
-              <Text style={styles.emptySubText}>Try different keywords or filters</Text>
-            </View>
+            <EmptyState
+              icon="search1"
+              title="No courses found"
+              subtitle="Try different keywords or filters"
+            />
           )}
         </View>
       }
@@ -275,40 +276,5 @@ const styles = StyleSheet.create({
   loader: {
     marginTop: 40,
   },
-  errorWrap: {
-    alignItems: 'center',
-    marginTop: 40,
-    gap: 12,
-  },
-  errorText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-  },
-  retryBtn: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-  },
-  retryText: {
-    color: colors.textPrimary,
-    fontSize: 13,
-    fontWeight: '500',
-  },
-  emptyWrap: {
-    alignItems: 'center',
-    marginTop: 50,
-    gap: 8,
-  },
-  emptyText: {
-    color: colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 8,
-  },
-  emptySubText: {
-    color: colors.textSecondary,
-    fontSize: 13,
-  },
 });
+

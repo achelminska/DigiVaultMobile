@@ -5,16 +5,16 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
   TextInput,
   Alert,
+  Platform,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import QueryState from '../components/QueryState';
 import { useUserProfile, useUpdateName, useUpdateEmail, useUpdatePassword } from '../hooks/useUserProfile';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import { UserProfileScreenProps } from '../types/navigation';
 import { colors } from '../config/theme';
-import { Platform } from 'react-native';
 
 type EditSection = 'name' | 'email' | 'password' | null;
 
@@ -123,21 +123,7 @@ export default function UserProfileScreen({ navigation }: UserProfileScreenProps
         <View style={styles.headerSpacer} />
       </View>
 
-      {isLoading && (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color={colors.textPrimary} />
-        </View>
-      )}
-
-      {isError && (
-        <View style={styles.centered}>
-          <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.errorText}>Failed to load profile</Text>
-          <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Try again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <QueryState isLoading={isLoading} isError={isError} onRetry={refetch} errorMessage="Failed to load profile" />
 
       {profile && (
         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
@@ -370,30 +356,6 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: 18,
     fontWeight: '700',
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 12,
-    paddingHorizontal: 40,
-  },
-  errorText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  retryBtn: {
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
-  },
-  retryText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
   },
   sectionHeader: {
     flexDirection: 'row',

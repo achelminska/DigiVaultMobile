@@ -5,11 +5,12 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   StyleSheet,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AppHeader from '../components/AppHeader';
+import QueryState from '../components/QueryState';
+import EmptyState from '../components/EmptyState';
 import { useWishlist, useRemoveFromWishlist } from '../hooks/useWishlist';
 import { useCart, useAddToCart } from '../hooks/useCart';
 import { usePurchasedCourses } from '../hooks/useCourses';
@@ -102,25 +103,14 @@ export default function WishlistScreen({ navigation }: WishlistScreenProps) {
         onCartPress={() => navigation.navigate('Cart')}
       />
 
-      {isLoading && (
-        <ActivityIndicator color={colors.textPrimary} style={styles.loader} />
-      )}
-
-      {isError && (
-        <View style={styles.errorWrap}>
-          <Text style={styles.errorText}>Something went wrong.</Text>
-          <TouchableOpacity onPress={() => refetch()} style={styles.retryBtn}>
-            <Text style={styles.retryText}>Try again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <QueryState isLoading={isLoading} isError={isError} onRetry={refetch} />
 
       {!isLoading && !isError && courses.length === 0 && (
-        <View style={styles.emptyWrap}>
-          <AntDesignIcon name="hearto" size={42} color={colors.iconFaint} />
-          <Text style={styles.emptyText}>Your wishlist is empty</Text>
-          <Text style={styles.emptySubText}>Save courses you're interested in</Text>
-        </View>
+        <EmptyState
+          icon="hearto"
+          title="Your wishlist is empty"
+          subtitle="Save courses you're interested in"
+        />
       )}
 
       {!isLoading && !isError && courses.length > 0 && (

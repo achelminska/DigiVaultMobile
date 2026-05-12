@@ -11,6 +11,8 @@ import {
   Platform,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import QueryState from '../components/QueryState';
+import EmptyState from '../components/EmptyState';
 import { useCart, useRemoveFromCart, useCheckout } from '../hooks/useCart';
 import { Course } from '../types/course';
 import { CartScreenProps } from '../types/navigation';
@@ -95,25 +97,14 @@ export default function CartScreen({ navigation }: CartScreenProps) {
         <View style={styles.headerSpacer} />
       </View>
 
-      {isLoading && (
-        <ActivityIndicator color={colors.textPrimary} style={styles.loader} />
-      )}
-
-      {isError && (
-        <View style={styles.errorWrap}>
-          <Text style={styles.errorText}>Something went wrong.</Text>
-          <TouchableOpacity onPress={() => refetch()} style={styles.retryBtn}>
-            <Text style={styles.retryText}>Try again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <QueryState isLoading={isLoading} isError={isError} onRetry={refetch} />
 
       {!isLoading && !isError && courses.length === 0 && (
-        <View style={styles.emptyWrap}>
-          <AntDesignIcon name="shoppingcart" size={42} color={colors.iconFaint} />
-          <Text style={styles.emptyText}>Your cart is empty</Text>
-          <Text style={styles.emptySubText}>Add courses you'd like to purchase</Text>
-        </View>
+        <EmptyState
+          icon="shoppingcart"
+          title="Your cart is empty"
+          subtitle="Add courses you'd like to purchase"
+        />
       )}
 
       {!isLoading && !isError && courses.length > 0 && (
@@ -256,47 +247,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: colors.divider,
-  },
-  loader: {
-    marginTop: 60,
-  },
-  errorWrap: {
-    alignItems: 'center',
-    marginTop: 60,
-    gap: 12,
-  },
-  errorText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-  },
-  retryBtn: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-  },
-  retryText: {
-    color: colors.textPrimary,
-    fontSize: 13,
-    fontWeight: '500',
-  },
-  emptyWrap: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingBottom: 60,
-  },
-  emptyText: {
-    color: colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 12,
-  },
-  emptySubText: {
-    color: colors.textSecondary,
-    fontSize: 13,
   },
   footer: {
     paddingHorizontal: 20,

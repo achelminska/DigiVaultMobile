@@ -5,10 +5,11 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
   Platform,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import QueryState from '../components/QueryState';
+import EmptyState from '../components/EmptyState';
 import { useOrders } from '../hooks/useOrders';
 import { OrderSummary } from '../types/order';
 import { OrdersScreenProps } from '../types/navigation';
@@ -61,28 +62,14 @@ export default function OrdersScreen({ navigation }: OrdersScreenProps) {
         <View style={styles.headerSpacer} />
       </View>
 
-      {isLoading && (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color={colors.textPrimary} />
-        </View>
-      )}
-
-      {isError && (
-        <View style={styles.centered}>
-          <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyText}>Failed to load orders</Text>
-          <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Try again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <QueryState isLoading={isLoading} isError={isError} onRetry={refetch} errorMessage="Failed to load orders" />
 
       {!isLoading && !isError && orders.length === 0 && (
-        <View style={styles.centered}>
-          <AntDesignIcon name="shoppingcart" size={64} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>No orders yet</Text>
-          <Text style={styles.emptyText}>Your future purchases will appear here</Text>
-        </View>
+        <EmptyState
+          icon="shoppingcart"
+          title="No orders yet"
+          subtitle="Your future purchases will appear here"
+        />
       )}
 
       {!isLoading && !isError && orders.length > 0 && (
@@ -133,36 +120,6 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: 20,
     fontWeight: '700',
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 12,
-    paddingHorizontal: 40,
-  },
-  emptyTitle: {
-    color: colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  emptyText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  retryBtn: {
-    marginTop: 8,
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
-  },
-  retryText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
   },
   list: {
     paddingHorizontal: 20,

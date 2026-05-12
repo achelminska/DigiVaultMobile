@@ -5,10 +5,11 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
   Platform,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import QueryState from '../components/QueryState';
+import EmptyState from '../components/EmptyState';
 import { useNotifications, useMarkAsRead } from '../hooks/useNotifications';
 import { Notification } from '../types/notification';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -64,21 +65,7 @@ export default function NotificationsScreen({ navigation }: Props) {
         </View>
       </View>
 
-      {isLoading && (
-        <View style={styles.centered}>
-          <ActivityIndicator color={colors.white} size="large" />
-        </View>
-      )}
-
-      {isError && (
-        <View style={styles.centered}>
-          <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Something went wrong</Text>
-          <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Try again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <QueryState isLoading={isLoading} isError={isError} onRetry={refetch} />
 
       {!isLoading && !isError && (
         <FlatList
@@ -90,10 +77,7 @@ export default function NotificationsScreen({ navigation }: Props) {
           contentContainerStyle={[styles.list, notifications.length === 0 && styles.listEmpty]}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListEmptyComponent={
-            <View style={styles.centered}>
-              <AntDesignIcon name="bells" size={48} color={colors.textFaint} />
-              <Text style={styles.emptyTitle}>No notifications</Text>
-            </View>
+            <EmptyState icon="bells" title="No notifications" />
           }
           ListFooterComponent={<View style={{ height: 40 }} />}
         />
@@ -146,30 +130,6 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 12,
     fontWeight: '800',
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 12,
-    paddingBottom: 60,
-  },
-  emptyTitle: {
-    color: colors.textSecondary,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  retryBtn: {
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
-  },
-  retryText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
   },
   list: {
     paddingHorizontal: 20,

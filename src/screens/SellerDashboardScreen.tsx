@@ -6,11 +6,12 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
   Platform,
   Dimensions,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import QueryState from '../components/QueryState';
+import EmptyState from '../components/EmptyState';
 import { useSellerCourses, useToggleVisibility } from '../hooks/useSeller';
 import { SellerDashboardScreenProps } from '../types/navigation';
 import { SellerCourse } from '../types/seller';
@@ -110,21 +111,7 @@ export default function SellerDashboardScreen({ navigation }: SellerDashboardScr
         </TouchableOpacity>
       </View>
 
-      {isLoading && (
-        <View style={styles.centered}>
-          <ActivityIndicator color={colors.white} size="large" />
-        </View>
-      )}
-
-      {isError && (
-        <View style={styles.centered}>
-          <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Something went wrong</Text>
-          <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Try again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <QueryState isLoading={isLoading} isError={isError} onRetry={refetch} />
 
       {!isLoading && !isError && (
         <FlatList
@@ -143,17 +130,15 @@ export default function SellerDashboardScreen({ navigation }: SellerDashboardScr
             ) : null
           }
           ListEmptyComponent={
-            <View style={styles.centered}>
-              <AntDesignIcon name="playcircleo" size={64} color={colors.textFaint} />
-              <Text style={styles.emptyTitle}>No courses yet</Text>
-              <Text style={styles.emptyText}>Start by creating your first course</Text>
-              <TouchableOpacity
-                style={styles.createBtn}
-                onPress={() => navigation.navigate('SellerCourseForm', {})}
-              >
-                <Text style={styles.createBtnText}>Create your first course</Text>
-              </TouchableOpacity>
-            </View>
+            <EmptyState
+              icon="playcircleo"
+              title="No courses yet"
+              subtitle="Start by creating your first course"
+              action={{
+                label: 'Create your first course',
+                onPress: () => navigation.navigate('SellerCourseForm', {}),
+              }}
+            />
           }
           ListFooterComponent={<View style={{ height: 40 }} />}
         />
@@ -197,48 +182,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 12,
-    paddingHorizontal: 40,
-    paddingBottom: 60,
-  },
-  emptyTitle: {
-    color: colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  emptyText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  retryBtn: {
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
-  },
-  retryText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  createBtn: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 12,
-    backgroundColor: colors.white,
-    marginTop: 4,
-  },
-  createBtnText: {
-    color: colors.black,
-    fontSize: 14,
-    fontWeight: '700',
   },
   list: {
     paddingHorizontal: PADDING,

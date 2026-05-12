@@ -5,11 +5,12 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   StyleSheet,
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AppHeader from '../components/AppHeader';
+import QueryState from '../components/QueryState';
+import EmptyState from '../components/EmptyState';
 import { usePurchasedCourses } from '../hooks/useCourses';
 import { Course } from '../types/course';
 import { MyVaultScreenProps } from '../types/navigation';
@@ -58,28 +59,14 @@ export default function MyVaultScreen({ navigation }: MyVaultScreenProps) {
         onCartPress={() => navigation.navigate('Cart')}
       />
 
-      {isLoading && (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color={colors.textPrimary} />
-        </View>
-      )}
-
-      {isError && (
-        <View style={styles.centered}>
-          <AntDesignIcon name="exclamationcircleo" size={48} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>Something went wrong</Text>
-          <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryText}>Try again</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <QueryState isLoading={isLoading} isError={isError} onRetry={refetch} />
 
       {!isLoading && !isError && courses.length === 0 && (
-        <View style={styles.centered}>
-          <AntDesignIcon name="playcircleo" size={64} color={colors.textFaint} />
-          <Text style={styles.emptyTitle}>No courses yet</Text>
-          <Text style={styles.emptyText}>Your purchased courses will appear here</Text>
-        </View>
+        <EmptyState
+          icon="playcircleo"
+          title="No courses yet"
+          subtitle="Your purchased courses will appear here"
+        />
       )}
 
       {!isLoading && !isError && courses.length > 0 && (
@@ -106,36 +93,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 12,
-    paddingHorizontal: 40,
-    paddingBottom: 60,
-  },
-  emptyTitle: {
-    color: colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  emptyText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  retryBtn: {
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
-  },
-  retryText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
   },
   listContent: {
     paddingHorizontal: 20,
