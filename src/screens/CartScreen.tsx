@@ -13,7 +13,8 @@ import {
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import QueryState from '../components/QueryState';
 import EmptyState from '../components/EmptyState';
-import { useCart, useRemoveFromCart, useCheckout } from '../hooks/useCart';
+import { useCart, useRemoveFromCart } from '../hooks/useCart';
+import { useCheckout } from '../hooks/useOrders';
 import { Course } from '../types/course';
 import { CartScreenProps } from '../types/navigation';
 import { colors } from '../config/theme';

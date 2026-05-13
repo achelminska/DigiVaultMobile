@@ -6,3 +6,6 @@ export const fetchOrders = (): Promise<OrderSummary[]> =>
 
 export const fetchOrderById = (idOrder: number): Promise<Order> =>
   authRequest<Order>(`/api/orders/${idOrder}`);
+
+export const checkout = (): Promise<Order> =>
+  authRequest<Order>('/api/orders', { method: 'POST' });
